@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ثبت سفارش عکاسی</title>
+    <style>
+        @font-face {
+            font-family: 'BYekan';
+            src: url('BYekan.ttf') format('truetype');
+            font-weight: normal;
+        }
+        @font-face {
+            font-family: 'DroidNaskh';
+            src: url('DroidNaskh.ttf') format('truetype');
+            font-weight: normal;
+        }
+
+        :root {
+            --bg-color: #f8fafc;
+            --form-bg: #ffffff;
+            --text-color: #0f172a;
+            --light-text: #64748b;
+            --border-color: #e2e8f0;
+            --card-bg: #f1f5f9;
+            --accent-color: #2563eb;
+            --accent-hover: #1d4ed8;
+            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+        }
+
+        body.dark-mode {
+            --bg-color: #0f172a;
+            --form-bg: #1e293b;
+            --text-color: #f8fafc;
+            --light-text: #94a3b8;
+            --border-color: #334155;
+            --card-bg: #0f172a;
+            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+        }
+        
+        body {
+            font-family: 'DroidNaskh', 'BYekan', 'Tahoma', Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 30px 20px;
+            min-height: 100vh;
+            margin: 0;
+            gap: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .form-area, .order-list-area {
+            background-color: var(--form-bg);
+            padding: 28px;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            box-sizing: border-box; 
+        }
+
+        .form-area {
+            width: 420px;
+            text-align: center;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 25px;
+            border-bottom: 2px dashed var(--border-color);
+            padding-bottom: 15px;
+        }
+
+        .camera-icon {
+            font-size: 32px;
+            margin-left: 10px;
+            transition: transform 0.2s ease;
+        }
+
+        .shutter-animation {
+            transform: scale(1.2) rotate(-10deg);
+            color: var(--accent-color);
+        }
+
+        .logo-text {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--text-color);
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+            text-align: right;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-color);
+            font-size: 0.9em;
+        }
+
+        input[type="text"], input[type="number"], textarea {
+            width: 100%;
+            padding: 11px 14px;
+            border: 1.5px solid var(--border-color);
+            border-radius: 10px;
+            box-sizing: border-box;
+            font-size: 14px;
+            background-color: var(--form-bg);
+            color: var(--text-color);
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        input[type="text"]:focus, input[type="number"]:focus, textarea:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+        }
+
+        textarea {
+            min-height: 70px;
+            resize: vertical;
+        }
+
+        button[type="submit"] {
+            background-color: var(--accent-color);
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            width: 100%;
+            transition: all 0.2s ease;
+            margin-top: 10px; 
+        }
+
+        button[type="submit"]:hover {
+            background-color: var(--accent-hover);
+        }
+
+        /* --- Checkbox & Color Chips --- */
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            direction: rtl;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            display: none;
+        }
+
+        .chip-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            font-size: 0.85em;
+            color: var(--text-color);
+            padding: 6px 12px;
+            border: 1.5px solid var(--border-color);
+            border-radius: 20px;
+            background-color: var(--form-bg);
+            user-select: none;
+            transition: all 0.2s ease;
+        }
+
+        .color-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+            border: 1px solid rgba(0,0,0,0.15);
+        }
+
+        .checkbox-group input[type="checkbox"]:checked + .chip-label {
+            border-color: var(--accent-color);
+            background-color: rgba(37, 99, 235, 0.08);
+            font-weight: bold;
+            color: var(--accent-color);
+        }
+
+        /* --- Order List Section --- */
+        .order-list-area {
+            width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .order-list-area h2 {
+            text-align: center;
+            color: var(--accent-color);
+            font-size: 20px;
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+
+        #exportButton {
+            background-color: transparent;
+            color: var(--accent-color);
+            border: 1.5px solid var(--accent-color);
+            padding: 8px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            transition: all 0.2s ease;
+        }
+
+        #exportButton:hover {
+            background-color: var(--accent-color);
+            color: white;
+        }
+
+        .order-item {
+            display: flex;
+            align-items: center;
+            border: 1px solid var(--border-color);
+            padding: 14px;
+            margin-bottom: 12px;
+            border-radius: 12px;
+            background-color: var(--card-bg);
+            transition: all 0.2s ease;
+        }
+
+        .order-item:hover {
+            border-color: var(--accent-color);
+        }
+
+        .item-number {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: var(--accent-color);
+            padding: 0 12px;
+            border-left: 2px solid var(--border-color);
+            display: flex;
+            align-items: center;
+        }
+
+        .item-details {
+            flex-grow: 1;
+            padding-right: 12px;
+            text-align: right;
+        }
+
+        .item-details strong {
+            font-size: 0.95em;
+            color: var(--text-color);
+        }
+
+        .item-details span {
+            display: block;
+            color: var(--light-text);
+            font-size: 0.85em;
+            margin-top: 4px;
+        }
+
+        /* --- Dark Mode Toggle --- */
+        .mode-toggle {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background-color: var(--form-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            width: 42px;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+        }
+
+        /* --- Confirmation Modal --- */
+        #confirmationMessage {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(5px);
+            color: white;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        #confirmationMessage.show {
+            display: flex;
+            opacity: 1;
+        }
+
+        #confirmationMessage strong {
+            font-size: 4em;
+            letter-spacing: 4px;
+            color: #38bdf8;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="mode-toggle" onclick="toggleDarkMode()">
+        <span id="modeIcon">🌙</span>
+    </div>
+
+    <!-- فرم ثبت سفارش -->
+    <div class="form-area">
+        <div class="header">
+            <span class="logo-text">ثبت سفارش عکاسی</span>
+            <span class="camera-icon" id="cameraIcon">📷</span>
+        </div>
+
+        <form id="orderForm">
+            <div class="form-group">
+                <label>نام و نام خانوادگی:</label>
+                <input type="text" id="customerName" required>
+            </div>
+
+            <div class="form-group">
+                <label>شماره تماس:</label>
+                <input type="text" id="phoneNumber" required>
+            </div>
+
+            <div class="form-group">
+                <label>تعداد عکس:</label>
+                <input type="number" id="photoCount" min="1" value="1" required>
+            </div>
+
+            <div class="form-group">
+                <label>رنگ‌های درخواستی:</label>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="c-red" value="قرمز"><label for="c-red" class="chip-label"><span class="color-dot" style="background:#ef4444;"></span>قرمز</label>
+                    <input type="checkbox" id="c-blue" value="آبی"><label for="c-blue" class="chip-label"><span class="color-dot" style="background:#3b82f6;"></span>آبی</label>
+                    <input type="checkbox" id="c-green" value="سبز"><label for="c-green" class="chip-label"><span class="color-dot" style="background:#22c55e;"></span>سبز</label>
+                    <input type="checkbox" id="c-yellow" value="زرد"><label for="c-yellow" class="chip-label"><span class="color-dot" style="background:#eab308;"></span>زرد</label>
+                    <input type="checkbox" id="c-black" value="مشکی"><label for="c-black" class="chip-label"><span class="color-dot" style="background:#0f172a;"></span>مشکی</label>
+                    <input type="checkbox" id="c-white" value="سفید"><label for="c-white" class="chip-label"><span class="color-dot" style="background:#ffffff;"></span>سفید</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>جزئیات سفارش:</label>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="d-edit" value="ادیت حرفه‌ای"><label for="d-edit" class="chip-label">✨ ادیت حرفه‌ای</label>
+                    <input type="checkbox" id="d-print" value="چاپ عکس"><label for="d-print" class="chip-label">🖼️ چاپ عکس</label>
+                    <input type="checkbox" id="d-file" value="تحویل فایل"><label for="d-file" class="chip-label">📁 تحویل فایل</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>توضیحات تکمیلی:</label>
+                <textarea id="notes" placeholder="نکات مربوط به شات‌ها، پوزها یا توضیحات اضافی..."></textarea>
+            </div>
+
+            <button type="submit">ثبت نهایی سفارش</button>
+        </form>
+    </div>
+
+    <!-- لیست سفارش‌ها -->
+    <div class="order-list-area">
+        <h2>لیست سفارشات ثبت‌شده</h2>
+        <button id="exportButton" onclick="exportToCSV()">خروجی فایل اکسل (CSV)</button>
+        <div id="ordersContainer"></div>
+    </div>
+
+    <!-- پاپ آپ کد پیگیری -->
+    <div id="confirmationMessage">
+        <span style="font-size: 1.2em;">سفارش با موفقیت ثبت شد</span>
+        <span style="font-size: 0.9em; margin-top: 10px; color: #cbd5e1;">کد پیگیری:</span>
+        <strong id="trackingCodeDisplay">---</strong>
+    </div>
+
+    <script>
+        let orders = JSON.parse(localStorage.getItem('photo_orders')) || [];
+
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            document.getElementById('modeIcon').textContent = isDark ? '☀️' : '🌙';
+        }
+
+        function playShutterSound() {
+            const ctx = new (window.AudioContext || window.webkitAudioContext)();
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = 'white' in ctx ? 'white' : 'triangle';
+            osc.frequency.setValueAtTime(300, ctx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(10, ctx.currentTime + 0.08);
+            gain.gain.setValueAtTime(0.3, ctx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.08);
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start();
+            osc.stop(ctx.currentTime + 0.08);
+
+            const icon = document.getElementById('cameraIcon');
+            icon.classList.add('shutter-animation');
+            setTimeout(() => icon.classList.remove('shutter-animation'), 200);
+        }
+
+        document.getElementById('orderForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            playShutterSound();
+
+            const name = document.getElementById('customerName').value;
+            const phone = document.getElementById('phoneNumber').value;
+            const count = document.getElementById('photoCount').value;
+            const notes = document.getElementById('notes').value;
+
+            // دریافت رنگ‌ها
+            const colors = Array.from(document.querySelectorAll('.checkbox-group input[id^="c-"]:checked'))
+                                .map(cb => cb.value);
+
+            // دریافت جزئیات
+            const details = Array.from(document.querySelectorAll('.checkbox-group input[id^="d-"]:checked'))
+                                 .map(cb => cb.value);
+
+            const trackingCode = Math.floor(1000 + Math.random() * 9000);
+
+            const newOrder = {
+                id: trackingCode,
+                name,
+                phone,
+                count,
+                colors: colors.length ? colors.join('، ') : 'تعیین نشده',
+                details: details.length ? details.join('، ') : 'ندارد',
+                notes: notes || '---',
+                date: new Date().toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit' })
+            };
+
+            orders.unshift(newOrder);
+            localStorage.setItem('photo_orders', JSON.stringify(orders));
+            renderOrders();
+
+            // نمایش پاپ آپ
+            const modal = document.getElementById('confirmationMessage');
+            document.getElementById('trackingCodeDisplay').textContent = `#${trackingCode}`;
+            modal.classList.add('show');
+
+            setTimeout(() => {
+                modal.classList.remove('show');
+            }, 2000);
+
+            this.reset();
+        });
+
+        function renderOrders() {
+            const container = document.getElementById('ordersContainer');
+            container.innerHTML = '';
+
+            orders.forEach(order => {
+                const item = document.createElement('div');
+                item.className = 'order-item';
+                item.innerHTML = `
+                    <div class="item-number">#${order.id}</div>
+                    <div class="item-details">
+                        <strong>${order.name} (${order.phone})</strong>
+                        <span>📸 تعداد: ${order.count} عدد | 🕒 ساعت: ${order.date}</span>
+                        <span>🎨 رنگ‌ها: ${order.colors}</span>
+                        <span>📋 جزئیات: ${order.details}</span>
+                        ${order.notes !== '---' ? `<span>📝 توضیحات: ${order.notes}</span>` : ''}
+                    </div>
+                `;
+                container.appendChild(item);
+            });
+        }
+
+        function exportToCSV() {
+            if (orders.length === 0) {
+                alert('سفارشی برای خروجی وجود ندارد.');
+                return;
+            }
+            let csvContent = "data:text/csv;charset=utf-8,\uFEFF";
+            csvContent += "کد پیگیری,نام,شماره تماس,تعداد,رنگ ها,جزئیات,توضیحات,زمان\n";
+
+            orders.forEach(o => {
+                csvContent += `"${o.id}","${o.name}","${o.phone}","${o.count}","${o.colors}","${o.details}","${o.notes}","${o.date}"\n`;
+            });
+
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", `orders_${new Date().toISOString().slice(0,10)}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // بارگذاری اولیه
+        renderOrders();
+    </script>
+</body>
+</html>
