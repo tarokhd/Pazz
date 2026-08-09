@@ -8,30 +8,37 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Vazirmatn:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@800;900&family=Vazirmatn:wght@300;400;500;700;800&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --bg-color: #f4f5f7;
+            --bg-color: #f1f5f9;
             --form-bg: #ffffff;
-            --text-color: #1e293b;
-            --light-text: #64748b;
+            --text-color: #0f172a;
+            --light-text: #475569;
             --border-color: #e2e8f0;
-            --card-border: #edf2f7;
+            --card-border: #f1f5f9;
             --card-bg: #f8fafc;
             --accent-color: #2563eb;
-            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            --input-bg: #ffffff;
+            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+            --glow-1: rgba(37, 99, 235, 0.08);
+            --glow-2: rgba(124, 58, 237, 0.08);
         }
 
         body.dark-mode {
-            --bg-color: #0f172a;
-            --form-bg: #1e293b;
+            --bg-color: #090d16;
+            --form-bg: #111827;
             --text-color: #f8fafc;
-            --light-text: #94a3b8;
-            --border-color: #334155;
-            --card-border: #334155;
-            --card-bg: #0f172a;
-            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+            --light-text: #cbd5e1;
+            --border-color: #1f2937;
+            --card-border: #1f2937;
+            --card-bg: #172033;
+            --accent-color: #3b82f6;
+            --input-bg: #1f2937;
+            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+            --glow-1: rgba(59, 130, 246, 0.15);
+            --glow-2: rgba(168, 85, 247, 0.15);
         }
         
         body {
@@ -45,15 +52,43 @@
             margin: 0;
             gap: 25px;
             transition: background-color 0.3s, color 0.3s;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .bg-shape-1 {
+            position: fixed;
+            top: -100px;
+            right: -100px;
+            width: 450px;
+            height: 450px;
+            background: radial-gradient(circle, var(--glow-1) 0%, rgba(0,0,0,0) 70%);
+            border-radius: 50%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .bg-shape-2 {
+            position: fixed;
+            bottom: -100px;
+            left: -100px;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, var(--glow-2) 0%, rgba(0,0,0,0) 70%);
+            border-radius: 50%;
+            z-index: 0;
+            pointer-events: none;
         }
 
         .form-area, .order-list-area {
             background-color: var(--form-bg);
             padding: 28px;
-            border-radius: 12px;
+            border-radius: 16px;
             box-shadow: var(--shadow);
-            transition: background-color 0.3s, box-shadow 0.3s;
+            transition: background-color 0.3s, box-shadow 0.3s, border-color 0.3s;
             box-sizing: border-box; 
+            z-index: 1;
+            border: 1px solid var(--border-color);
         }
 
         .form-area {
@@ -69,12 +104,12 @@
             margin-bottom: 25px;
             border-bottom: 2px solid var(--border-color);
             padding-bottom: 15px;
-            gap: 12px;
+            gap: 15px;
         }
 
         .camera-icon-wrapper {
-            width: 36px;
-            height: 36px;
+            width: 44px;
+            height: 44px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -86,10 +121,10 @@
             height: 100%;
             fill: none;
             stroke: var(--accent-color);
-            stroke-width: 1.8;
+            stroke-width: 2;
             stroke-linecap: round;
             stroke-linejoin: round;
-            filter: drop-shadow(0 2px 4px rgba(37, 99, 235, 0.25));
+            filter: drop-shadow(0 2px 8px rgba(37, 99, 235, 0.4));
         }
 
         .shutter-animation {
@@ -98,13 +133,28 @@
 
         .logo-text {
             font-family: 'Syne', sans-serif;
-            font-size: 24px;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-            background: linear-gradient(135deg, var(--accent-color) 0%, #7c3aed 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            line-height: 0.9;
+            text-transform: uppercase;
+        }
+
+        .logo-text .line1 {
+            font-size: 26px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            background: linear-gradient(135deg, var(--accent-color) 0%, #8b5cf6 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-transform: uppercase;
+        }
+
+        .logo-text .line2 {
+            font-size: 16px;
+            font-weight: 800;
+            letter-spacing: 3px;
+            color: var(--text-color);
+            opacity: 0.9;
         }
 
         .form-group {
@@ -115,9 +165,9 @@
         label {
             display: block;
             margin-bottom: 6px;
-            font-weight: 500;
+            font-weight: 600;
             color: var(--light-text);
-            font-size: 0.88em;
+            font-size: 0.9em;
         }
 
         input[type="text"], input[type="number"], textarea {
@@ -129,7 +179,7 @@
             box-sizing: border-box;
             font-size: 15px;
             resize: vertical;
-            background-color: var(--form-bg);
+            background-color: var(--input-bg);
             color: var(--text-color);
             transition: border-color 0.2s, background-color 0.3s, color 0.3s;
             outline: none;
@@ -182,15 +232,15 @@
             display: inline-flex;
             align-items: center;
             cursor: pointer;
-            font-size: 0.82em;
-            font-weight: 400;
+            font-size: 0.85em;
+            font-weight: 500;
             color: var(--text-color);
             margin: 0;
-            padding: 4px 10px;
+            padding: 5px 12px;
             border: 1px solid var(--border-color);
             border-radius: 6px;
             transition: all 0.2s;
-            background-color: var(--form-bg);
+            background-color: var(--input-bg);
         }
 
         .checkbox-group input[type="checkbox"] {
@@ -201,7 +251,7 @@
             background-color: var(--accent-color);
             color: white;
             border-color: var(--accent-color);
-            font-weight: 500;
+            font-weight: 600;
         }
 
         #confirmationMessage {
@@ -210,7 +260,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(15, 23, 42, 0.92);
+            background-color: rgba(9, 13, 22, 0.94);
             color: white;
             display: none;
             flex-direction: column;
@@ -266,7 +316,7 @@
 
         .order-item {
             display: flex;
-            border: 1px solid var(--card-border);
+            border: 1px solid var(--border-color);
             padding: 12px 14px;
             margin-bottom: 10px;
             border-radius: 8px;
@@ -321,6 +371,7 @@
             position: absolute;
             top: 20px;
             left: 20px;
+            z-index: 10;
         }
 
         .mode-toggle label {
@@ -337,6 +388,9 @@
     </style>
 </head>
 <body id="appBody">
+    <div class="bg-shape-1"></div>
+    <div class="bg-shape-2"></div>
+
     <div class="mode-toggle">
         <input type="checkbox" id="darkModeToggle" onchange="toggleDarkMode()">
         <label for="darkModeToggle" id="toggleIcon">☀️</label>
@@ -350,7 +404,10 @@
                     <circle cx="12" cy="13" r="4"></circle>
                 </svg>
             </div>
-            <div class="logo-text">PAZZ ProLab</div>
+            <div class="logo-text">
+                <span class="line1">PAZZ</span>
+                <span class="line2">ProLab</span>
+            </div>
         </div>
 
         <form id="orderForm">
@@ -408,7 +465,7 @@
         <h2>سفارشات ثبت شده لابراتوار پاز</h2>
         <button id="exportButton" onclick="exportOrdersToCSV()">گرفتن خروجی 📊</button>
         <div id="orderList">
-            <p style="text-align: center; color: #aaa;">هنوز سفارشی ثبت نشده است.</p>
+            <p style="text-align: center; color: var(--light-text);">هنوز سفارشی ثبت نشده است.</p>
         </div>
     </div>
     
@@ -451,7 +508,7 @@
             orderList.innerHTML = ''; 
 
             if (sessionOrders.length === 0) {
-                orderList.innerHTML = '<p style="text-align: center; color: #aaa;">هنوز سفارشی ثبت نشده است.</p>';
+                orderList.innerHTML = '<p style="text-align: center; color: var(--light-text);">هنوز سفارشی ثبت نشده است.</p>';
                 exportButton.style.display = 'none';
                 return;
             }
@@ -489,7 +546,7 @@
                     <div class="item-details">
                         <strong>کد ردیابی: ${order.id}</strong>
                         <span>فامیل: ${order.lastName} | تعداد: ${order.photoCount} قطعه ${phoneDisplay}</span>
-                        <span style="font-size: 0.8em; color: #999;">زمان ثبت: ${order.time} ${detailsDisplay} ${descriptionDisplay}</span>
+                        <span style="font-size: 0.8em; opacity: 0.8;">زمان ثبت: ${order.time} ${detailsDisplay} ${descriptionDisplay}</span>
                     </div>
                 `;
                 orderList.appendChild(item);
