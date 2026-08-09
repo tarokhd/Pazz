@@ -146,7 +146,6 @@
             background-color: var(--accent-hover);
         }
 
-        /* --- Checkbox & Color Chips --- */
         .checkbox-group {
             display: flex;
             flex-wrap: wrap;
@@ -188,7 +187,6 @@
             color: var(--accent-color);
         }
 
-        /* --- Order List Section --- */
         .order-list-area {
             width: 500px;
             max-height: 90vh;
@@ -266,7 +264,6 @@
             margin-top: 4px;
         }
 
-        /* --- Dark Mode Toggle --- */
         .mode-toggle {
             position: fixed;
             top: 20px;
@@ -283,7 +280,6 @@
             cursor: pointer;
         }
 
-        /* --- Confirmation Modal --- */
         #confirmationMessage {
             position: fixed;
             top: 0;
@@ -321,7 +317,6 @@
         <span id="modeIcon">🌙</span>
     </div>
 
-    <!-- فرم ثبت سفارش -->
     <div class="form-area">
         <div class="header">
             <span class="logo-text">ثبت سفارش عکاسی</span>
@@ -374,14 +369,12 @@
         </form>
     </div>
 
-    <!-- لیست سفارش‌ها -->
     <div class="order-list-area">
         <h2>لیست سفارشات ثبت‌شده</h2>
         <button id="exportButton" onclick="exportToCSV()">خروجی فایل اکسل (CSV)</button>
         <div id="ordersContainer"></div>
     </div>
 
-    <!-- پاپ آپ کد پیگیری -->
     <div id="confirmationMessage">
         <span style="font-size: 1.2em;">سفارش با موفقیت ثبت شد</span>
         <span style="font-size: 0.9em; margin-top: 10px; color: #cbd5e1;">کد پیگیری:</span>
@@ -425,11 +418,9 @@
             const count = document.getElementById('photoCount').value;
             const notes = document.getElementById('notes').value;
 
-            // دریافت رنگ‌ها
             const colors = Array.from(document.querySelectorAll('.checkbox-group input[id^="c-"]:checked'))
                                 .map(cb => cb.value);
 
-            // دریافت جزئیات
             const details = Array.from(document.querySelectorAll('.checkbox-group input[id^="d-"]:checked'))
                                  .map(cb => cb.value);
 
@@ -437,20 +428,30 @@
 
             const newOrder = {
                 id: trackingCode,
-                name,
-                phone,
-                count,
-                colors: colors.length ? colors.join('، ') : 'تعیین نشده',
+                name: name,
+                phone: phone,
+                count: count,
                 details: details.length ? details.join('، ') : 'ندارد',
+                colors: colors.length ? colors.join('، ') : 'تعیین نشده',
                 notes: notes || '---',
                 date: new Date().toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit' })
             };
 
+            // ارسال به گوگل شیت
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbyTbsc43aL7ALISJyrza6IMAj9cm5YBEw16DHtqljb4YdrVHvXaZHZmG8GVHNwijVkN/exec';
+            
+            fetch(scriptURL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(newOrder)
+            }).catch(error => console.error('Error!', error.message));
+
+            // ذخیره محلی و نمایش
             orders.unshift(newOrder);
             localStorage.setItem('photo_orders', JSON.stringify(orders));
             renderOrders();
 
-            // نمایش پاپ آپ
             const modal = document.getElementById('confirmationMessage');
             document.getElementById('trackingCodeDisplay').textContent = `#${trackingCode}`;
             modal.classList.add('show');
@@ -489,10 +490,10 @@
                 return;
             }
             let csvContent = "data:text/csv;charset=utf-8,\uFEFF";
-            csvContent += "کد پیگیری,نام,شماره تماس,تعداد,رنگ ها,جزئیات,توضیحات,زمان\n";
+            csvContent += "کد پیگیری,نام,شماره تماس,تعداد,جزئیات,رنگ ها,توضیحات,زمان\n";
 
             orders.forEach(o => {
-                csvContent += `"${o.id}","${o.name}","${o.phone}","${o.count}","${o.colors}","${o.details}","${o.notes}","${o.date}"\n`;
+                csvContent += `"${o.id}","${o.name}","${o.phone}","${o.count}","${o.details}","${o.colors}","${o.notes}","${o.date}"\n`;
             });
 
             const encodedUri = encodeURI(csvContent);
@@ -504,7 +505,6 @@
             document.body.removeChild(link);
         }
 
-        // بارگذاری اولیه
         renderOrders();
     </script>
 </body>
