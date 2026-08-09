@@ -348,11 +348,11 @@
         <span id="displayName"></span>
     </div>
 
-    <!-- پخش صوتی فایل شاتر مستقیم از پوشه گیتهاب -->
+    <!-- فایل شاتر از پوشه جاری در گیتهاب -->
     <audio id="shutterSound" src="./shutter.mp3" preload="auto"></audio> 
 
     <script>
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbwMf1LR2EUZWbX4oTKy38EXvbEgyCj1FEErAptEhucWJ0MkarJ4M0IsCb_AmGSWns/exec';
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbxuXkBvHiGQtol7r6sUsyevrnwVsi3u4kfkuJg-OyuQSiltCODmYGGoVSTJiWt_UA3f/exec';
 
         const form = document.getElementById('orderForm');
         const cameraIcon = document.getElementById('cameraIcon');
@@ -524,28 +524,26 @@
             sessionOrders.push(orderData);
             renderOrders(); 
 
-            // ارسال به گوگل شیت
-            const payload = {
-                id: orderData.id,
-                name: orderData.lastName,
-                phone: orderData.phoneNumber,
-                count: orderData.photoCount,
-                details: selectedGenderAge.join(', '),
-                colors: selectedColors.join(', '),
-                notes: orderData.description,
-                date: orderData.timestamp
-            };
+            // ساخت پارامترهای فرم جهت عبور ایمن از محدودیتهای گوگل شیت
+            const formData = new URLSearchParams();
+            formData.append('id', orderData.id);
+            formData.append('name', orderData.lastName);
+            formData.append('phone', orderData.phoneNumber);
+            formData.append('count', orderData.photoCount);
+            formData.append('details', selectedGenderAge.join(', '));
+            formData.append('colors', selectedColors.join(', '));
+            formData.append('notes', orderData.description);
+            formData.append('date', orderData.timestamp);
 
             fetch(scriptURL, {
                 method: 'POST',
                 mode: 'no-cors',
                 headers: {
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'application/x-www-form-urlencoded'
                 },
-                body: JSON.stringify(payload)
+                body: formData.toString()
             }).catch(error => console.error('خطا در ارسال به گوگل شیت:', error));
 
-            // پخش صدای شاتر با حل مشکل Autoplay مرورگرها
             try {
                 if (shutterSound) { 
                     shutterSound.currentTime = 0;
