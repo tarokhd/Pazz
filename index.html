@@ -6,10 +6,9 @@
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📷</text></svg>">
     <title>ثبت سفارشات لابراتوار پاز</title>
     
-    <!-- فراخوانی فونت وزیرمتن با اعداد فارسی (Vazirmatn) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Vazirmatn:wght@300;400;500;700;800&display=swap" rel="stylesheet">
 
     <style>
         :root {
@@ -70,25 +69,42 @@
             margin-bottom: 25px;
             border-bottom: 2px solid var(--border-color);
             padding-bottom: 15px;
+            gap: 12px;
         }
 
-        .camera-icon {
-            font-size: 32px;
-            margin-left: 10px;
-            color: var(--text-color);
-            transition: transform 0.1s ease-in-out, color 0.3s;
+        .camera-icon-wrapper {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .camera-icon-wrapper svg {
+            width: 100%;
+            height: 100%;
+            fill: none;
+            stroke: var(--accent-color);
+            stroke-width: 1.8;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            filter: drop-shadow(0 2px 4px rgba(37, 99, 235, 0.25));
         }
 
         .shutter-animation {
-            transform: scale(1.1) rotate(5deg);
-            color: var(--accent-color);
+            transform: scale(1.2) rotate(12deg);
         }
 
         .logo-text {
-            font-size: 22px;
+            font-family: 'Syne', sans-serif;
+            font-size: 24px;
             font-weight: 800;
-            color: var(--text-color);
             letter-spacing: -0.5px;
+            background: linear-gradient(135deg, var(--accent-color) 0%, #7c3aed 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
         }
 
         .form-group {
@@ -328,7 +344,12 @@
 
     <div class="form-area">
         <div class="header">
-            <span id="cameraIcon" class="camera-icon">📷</span>
+            <div id="cameraIcon" class="camera-icon-wrapper">
+                <svg viewBox="0 0 24 24">
+                    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+                    <circle cx="12" cy="13" r="4"></circle>
+                </svg>
+            </div>
             <div class="logo-text">Pause Pro-Lab</div>
         </div>
 
