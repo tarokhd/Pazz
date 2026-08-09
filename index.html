@@ -13,32 +13,36 @@
     <style>
         :root {
             --bg-color: #f1f5f9;
-            --form-bg: #ffffff;
+            --form-bg: rgba(255, 255, 255, 0.88);
             --text-color: #0f172a;
             --light-text: #475569;
             --border-color: #e2e8f0;
-            --card-border: #f1f5f9;
-            --card-bg: #f8fafc;
+            --card-border: #e2e8f0;
+            --card-bg: rgba(248, 250, 252, 0.8);
             --accent-color: #2563eb;
             --input-bg: #ffffff;
             --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
-            --glow-1: rgba(37, 99, 235, 0.08);
-            --glow-2: rgba(124, 58, 237, 0.08);
+            --glow-1: rgba(37, 99, 235, 0.12);
+            --glow-2: rgba(124, 58, 237, 0.12);
+            --glow-3: rgba(236, 72, 153, 0.1);
+            --grid-color: rgba(37, 99, 235, 0.03);
         }
 
         body.dark-mode {
-            --bg-color: #090d16;
-            --form-bg: #111827;
+            --bg-color: #080c14;
+            --form-bg: rgba(17, 24, 39, 0.85);
             --text-color: #f8fafc;
             --light-text: #cbd5e1;
             --border-color: #1f2937;
             --card-border: #1f2937;
-            --card-bg: #172033;
+            --card-bg: rgba(23, 32, 51, 0.8);
             --accent-color: #3b82f6;
             --input-bg: #1f2937;
             --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
-            --glow-1: rgba(59, 130, 246, 0.15);
-            --glow-2: rgba(168, 85, 247, 0.15);
+            --glow-1: rgba(59, 130, 246, 0.2);
+            --glow-2: rgba(168, 85, 247, 0.18);
+            --glow-3: rgba(236, 72, 153, 0.15);
+            --grid-color: rgba(255, 255, 255, 0.02);
         }
         
         body {
@@ -56,32 +60,95 @@
             overflow-x: hidden;
         }
 
+        .bg-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-image: 
+                linear-gradient(to right, var(--grid-color) 1px, transparent 1px),
+                linear-gradient(to bottom, var(--grid-color) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: 0;
+            pointer-events: none;
+        }
+
         .bg-shape-1 {
             position: fixed;
-            top: -100px;
+            top: -120px;
             right: -100px;
-            width: 450px;
-            height: 450px;
+            width: 500px;
+            height: 500px;
             background: radial-gradient(circle, var(--glow-1) 0%, rgba(0,0,0,0) 70%);
             border-radius: 50%;
             z-index: 0;
             pointer-events: none;
+            filter: blur(20px);
         }
 
         .bg-shape-2 {
             position: fixed;
-            bottom: -100px;
-            left: -100px;
-            width: 500px;
-            height: 500px;
+            bottom: -150px;
+            left: -120px;
+            width: 550px;
+            height: 550px;
             background: radial-gradient(circle, var(--glow-2) 0%, rgba(0,0,0,0) 70%);
             border-radius: 50%;
             z-index: 0;
             pointer-events: none;
+            filter: blur(20px);
+        }
+
+        .bg-shape-3 {
+            position: fixed;
+            top: 40%;
+            left: 30%;
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, var(--glow-3) 0%, rgba(0,0,0,0) 70%);
+            border-radius: 50%;
+            z-index: 0;
+            pointer-events: none;
+            filter: blur(30px);
+        }
+
+        .bg-art-circle {
+            position: fixed;
+            top: 10%;
+            left: 5%;
+            width: 250px;
+            height: 250px;
+            border: 1px dashed var(--accent-color);
+            opacity: 0.15;
+            border-radius: 50%;
+            z-index: 0;
+            pointer-events: none;
+            animation: spin 60s linear infinite;
+        }
+
+        .bg-art-cross {
+            position: fixed;
+            bottom: 15%;
+            right: 6%;
+            width: 180px;
+            height: 180px;
+            border: 1px solid var(--accent-color);
+            opacity: 0.08;
+            transform: rotate(45deg);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
 
         .form-area, .order-list-area {
             background-color: var(--form-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             padding: 28px;
             border-radius: 16px;
             box-shadow: var(--shadow);
@@ -260,7 +327,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(9, 13, 22, 0.94);
+            background-color: rgba(8, 12, 20, 0.94);
             color: white;
             display: none;
             flex-direction: column;
@@ -388,8 +455,12 @@
     </style>
 </head>
 <body id="appBody">
+    <div class="bg-grid"></div>
     <div class="bg-shape-1"></div>
     <div class="bg-shape-2"></div>
+    <div class="bg-shape-3"></div>
+    <div class="bg-art-circle"></div>
+    <div class="bg-art-cross"></div>
 
     <div class="mode-toggle">
         <input type="checkbox" id="darkModeToggle" onchange="toggleDarkMode()">
