@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📷</text></svg>">
-    <title>ثبت سفارشات لابراتوار پاز</title>
-    
+    <title>سامانه سفارشات و سبد خرید لابراتوار پاز</title>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@800;900&family=Vazirmatn:wght@300;400;500;700;800&display=swap" rel="stylesheet">
@@ -13,108 +13,98 @@
     <style>
         :root {
             --bg-color: #f1f5f9;
-            --form-bg: rgba(255, 255, 255, 0.88);
+            --form-bg: rgba(255, 255, 255, 0.92);
             --text-color: #0f172a;
             --light-text: #475569;
             --border-color: #e2e8f0;
-            --card-border: #e2e8f0;
-            --card-bg: rgba(248, 250, 252, 0.8);
+            --card-bg: rgba(248, 250, 252, 0.9);
             --accent-color: #2563eb;
+            --accent-hover: #1d4ed8;
             --input-bg: #ffffff;
             --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
             --glow-1: rgba(37, 99, 235, 0.12);
             --glow-2: rgba(124, 58, 237, 0.12);
             --glow-3: rgba(236, 72, 153, 0.1);
             --grid-color: rgba(37, 99, 235, 0.03);
+            --invoice-bg: rgba(37, 99, 235, 0.06);
         }
 
         body.dark-mode {
             --bg-color: #080c14;
-            --form-bg: rgba(17, 24, 39, 0.85);
+            --form-bg: rgba(17, 24, 39, 0.9);
             --text-color: #f8fafc;
             --light-text: #cbd5e1;
             --border-color: #1f2937;
-            --card-border: #1f2937;
-            --card-bg: rgba(23, 32, 51, 0.8);
+            --card-bg: rgba(23, 32, 51, 0.9);
             --accent-color: #3b82f6;
+            --accent-hover: #2563eb;
             --input-bg: #1f2937;
             --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
             --glow-1: rgba(59, 130, 246, 0.2);
             --glow-2: rgba(168, 85, 247, 0.18);
             --glow-3: rgba(236, 72, 153, 0.15);
             --grid-color: rgba(255, 255, 255, 0.02);
+            --invoice-bg: rgba(59, 130, 246, 0.12);
         }
-        
+
         body {
             font-family: 'Vazirmatn', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
-            display: flex;
-            justify-content: center;
-            padding: 30px 20px;
-            min-height: 95vh;
             margin: 0;
-            gap: 25px;
+            padding: 66px 16px 28px;
+            min-height: 100vh;
             transition: background-color 0.3s, color 0.3s;
             position: relative;
             overflow-x: hidden;
+            box-sizing: border-box;
         }
 
-        .bg-grid {
+        .bg-grid, .bg-shape-1, .bg-shape-2, .bg-shape-3, .bg-art-circle, .bg-art-cross {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background-image: 
-                linear-gradient(to right, var(--grid-color) 1px, transparent 1px),
-                linear-gradient(to bottom, var(--grid-color) 1px, transparent 1px);
-            background-size: 40px 40px;
             z-index: 0;
             pointer-events: none;
         }
 
+        .bg-grid {
+            inset: 0;
+            background-image:
+                linear-gradient(to right, var(--grid-color) 1px, transparent 1px),
+                linear-gradient(to bottom, var(--grid-color) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
         .bg-shape-1 {
-            position: fixed;
             top: -120px;
             right: -100px;
             width: 500px;
             height: 500px;
             background: radial-gradient(circle, var(--glow-1) 0%, rgba(0,0,0,0) 70%);
             border-radius: 50%;
-            z-index: 0;
-            pointer-events: none;
             filter: blur(20px);
         }
 
         .bg-shape-2 {
-            position: fixed;
             bottom: -150px;
             left: -120px;
             width: 550px;
             height: 550px;
             background: radial-gradient(circle, var(--glow-2) 0%, rgba(0,0,0,0) 70%);
             border-radius: 50%;
-            z-index: 0;
-            pointer-events: none;
             filter: blur(20px);
         }
 
         .bg-shape-3 {
-            position: fixed;
             top: 40%;
             left: 30%;
             width: 350px;
             height: 350px;
             background: radial-gradient(circle, var(--glow-3) 0%, rgba(0,0,0,0) 70%);
             border-radius: 50%;
-            z-index: 0;
-            pointer-events: none;
             filter: blur(30px);
         }
 
         .bg-art-circle {
-            position: fixed;
             top: 10%;
             left: 5%;
             width: 250px;
@@ -122,13 +112,10 @@
             border: 1px dashed var(--accent-color);
             opacity: 0.15;
             border-radius: 50%;
-            z-index: 0;
-            pointer-events: none;
             animation: spin 60s linear infinite;
         }
 
         .bg-art-cross {
-            position: fixed;
             bottom: 15%;
             right: 6%;
             width: 180px;
@@ -136,8 +123,6 @@
             border: 1px solid var(--accent-color);
             opacity: 0.08;
             transform: rotate(45deg);
-            z-index: 0;
-            pointer-events: none;
         }
 
         @keyframes spin {
@@ -145,38 +130,119 @@
             to { transform: rotate(360deg); }
         }
 
-        .form-area, .order-list-area {
+        /* نوار کنترل بالا */
+        .top-controls {
+            position: fixed;
+            top: 12px;
+            left: 16px;
+            right: 16px;
+            z-index: 30;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            pointer-events: none;
+        }
+
+        .top-controls > * {
+            pointer-events: auto;
+        }
+
+        .mode-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            background-color: var(--form-bg);
+            padding: 5px;
+            border-radius: 999px;
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(12px);
+            box-shadow: var(--shadow);
+        }
+
+        .mode-tab-btn {
+            font-family: inherit;
+            font-size: 12.5px;
+            font-weight: 700;
+            padding: 6px 14px;
+            border-radius: 999px;
+            border: none;
+            background: transparent;
+            color: var(--text-color);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .mode-tab-btn:hover {
+            color: var(--accent-color);
+        }
+
+        .mode-tab-btn.active {
+            background-color: var(--accent-color);
+            color: #ffffff;
+        }
+
+        .mode-toggle label {
+            cursor: pointer;
+            font-size: 1.3em;
+            color: var(--light-text);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: var(--form-bg);
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(12px);
+            box-shadow: var(--shadow);
+            user-select: none;
+            margin: 0;
+        }
+
+        .mode-toggle input {
+            display: none;
+        }
+
+        /* چیدمان سه‌ستونه اصلی */
+        .workspace-grid {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            grid-template-columns: 1.05fr 1fr 1.05fr;
+            gap: 18px;
+            max-width: 1480px;
+            margin: 0 auto;
+            align-items: start;
+        }
+
+        .panel-box {
             background-color: var(--form-bg);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            padding: 28px;
+            padding: 20px;
             border-radius: 16px;
             box-shadow: var(--shadow);
-            transition: background-color 0.3s, box-shadow 0.3s, border-color 0.3s;
-            box-sizing: border-box; 
-            z-index: 1;
             border: 1px solid var(--border-color);
-        }
-
-        .form-area {
-            width: 400px;
-            text-align: center;
-            height: fit-content;
+            box-sizing: border-box;
         }
 
         .header {
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 25px;
+            margin-bottom: 14px;
             border-bottom: 2px solid var(--border-color);
-            padding-bottom: 15px;
-            gap: 15px;
+            padding-bottom: 12px;
+            gap: 12px;
         }
 
         .camera-icon-wrapper {
-            width: 44px;
-            height: 44px;
+            width: 38px;
+            height: 38px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -191,7 +257,7 @@
             stroke-width: 2;
             stroke-linecap: round;
             stroke-linejoin: round;
-            filter: drop-shadow(0 2px 8px rgba(37, 99, 235, 0.4));
+            filter: drop-shadow(0 2px 8px rgba(37, 99, 235, 0.35));
         }
 
         .shutter-animation {
@@ -208,7 +274,7 @@
         }
 
         .logo-text .line1 {
-            font-size: 26px;
+            font-size: 23px;
             font-weight: 900;
             letter-spacing: 1px;
             background: linear-gradient(135deg, var(--accent-color) 0%, #8b5cf6 100%);
@@ -217,34 +283,61 @@
         }
 
         .logo-text .line2 {
-            font-size: 16px;
+            font-size: 14px;
             font-weight: 800;
             letter-spacing: 3px;
             color: var(--text-color);
             opacity: 0.9;
         }
 
+        .panel-title {
+            text-align: center;
+            font-size: 17px;
+            font-weight: 800;
+            color: var(--accent-color);
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 10px;
+            margin: 0 0 14px 0;
+        }
+
+        .section-badge {
+            display: inline-block;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 999px;
+            background: rgba(37, 99, 235, 0.12);
+            color: var(--accent-color);
+            margin-bottom: 12px;
+        }
+
         .form-group {
-            margin-bottom: 18px;
+            margin-bottom: 12px;
             text-align: right;
         }
 
-        label {
+        .form-row-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        label.field-label {
             display: block;
-            margin-bottom: 6px;
-            font-weight: 600;
+            margin-bottom: 5px;
+            font-weight: 700;
             color: var(--light-text);
-            font-size: 0.9em;
+            font-size: 0.84em;
         }
 
         input[type="text"], input[type="number"], textarea {
             font-family: inherit;
             width: 100%;
-            padding: 10px 14px;
+            padding: 8px 11px;
             border: 1px solid var(--border-color);
             border-radius: 8px;
             box-sizing: border-box;
-            font-size: 15px;
+            font-size: 13.5px;
             resize: vertical;
             background-color: var(--input-bg);
             color: var(--text-color);
@@ -257,76 +350,408 @@
         }
 
         textarea {
-            min-height: 70px;
+            min-height: 54px;
         }
 
-        button {
-            font-family: inherit;
-            font-weight: 700;
-            background-color: var(--accent-color);
-            color: white;
-            padding: 12px 20px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            width: 100%;
-            transition: background-color 0.2s, transform 0.1s;
-            margin-top: 10px; 
-        }
-
-        button:hover {
-            background-color: #1d4ed8;
-        }
-
-        button:active {
-            transform: scale(0.99);
-        }
-        
-        .checkbox-group {
+        /* دکمه‌های افزودن به سبد خرید (کلیک چندباره) */
+        .action-grid {
             border: 1px solid var(--border-color);
-            background-color: var(--card-bg); 
-            padding: 10px;
+            background-color: var(--card-bg);
+            padding: 8px;
             border-radius: 8px;
-            margin-top: 5px;
             display: flex;
             flex-wrap: wrap;
-            justify-content: flex-end; 
             gap: 6px;
         }
 
-        .checkbox-group label { 
+        .add-item-btn {
+            font-family: inherit;
+            font-size: 0.81em;
+            font-weight: 600;
+            color: var(--text-color);
+            background-color: var(--input-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 7px;
+            padding: 6px 11px;
+            cursor: pointer;
+            transition: all 0.15s ease;
             display: inline-flex;
             align-items: center;
-            cursor: pointer;
-            font-size: 0.85em;
-            font-weight: 500;
-            color: var(--text-color);
-            margin: 0;
-            padding: 5px 12px;
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            transition: all 0.2s;
-            background-color: var(--input-bg);
+            gap: 5px;
         }
 
-        .checkbox-group input[type="checkbox"] {
+        .add-item-btn:hover {
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+            transform: translateY(-1px);
+        }
+
+        .add-item-btn:active {
+            transform: scale(0.96);
+            background-color: var(--accent-color);
+            color: #ffffff;
+        }
+
+        .pill-group {
+            border: 1px solid var(--border-color);
+            background-color: var(--card-bg);
+            padding: 8px;
+            border-radius: 8px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .pill-group input[type="checkbox"],
+        .pill-group input[type="radio"] {
             display: none;
         }
 
-        .checkbox-group input[type="checkbox"]:checked + label {
+        .pill-group label {
+            display: inline-flex;
+            align-items: center;
+            cursor: pointer;
+            font-size: 0.8em;
+            font-weight: 500;
+            color: var(--text-color);
+            margin: 0;
+            padding: 5px 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            transition: all 0.18s ease;
+            background-color: var(--input-bg);
+            user-select: none;
+        }
+
+        .pill-group input:checked + label {
+            background-color: var(--accent-color);
+            color: #ffffff;
+            border-color: var(--accent-color);
+            font-weight: 700;
+        }
+
+        .sub-divider {
+            width: 100%;
+            font-size: 0.74em;
+            font-weight: 700;
+            color: var(--light-text);
+            margin-top: 4px;
+            margin-bottom: 2px;
+            padding-top: 6px;
+            border-top: 1px dashed var(--border-color);
+        }
+
+        .sub-divider:first-child {
+            border-top: none;
+            padding-top: 0;
+            margin-top: 0;
+        }
+
+        .conditional-input {
+            margin-top: 8px;
+            display: none;
+        }
+
+        .conditional-input.visible {
+            display: block;
+        }
+
+        /* سبد خرید وسط */
+        .cart-list {
+            max-height: 320px;
+            overflow-y: auto;
+            margin-bottom: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            background-color: var(--card-bg);
+            padding: 8px;
+        }
+
+        .cart-empty {
+            text-align: center;
+            color: var(--light-text);
+            font-size: 0.86em;
+            padding: 26px 10px;
+        }
+
+        .cart-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            padding: 8px 10px;
+            border-radius: 8px;
+            background-color: var(--input-bg);
+            border: 1px solid var(--border-color);
+            margin-bottom: 7px;
+            font-size: 0.84em;
+        }
+
+        .cart-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .cart-item-info {
+            flex-grow: 1;
+            text-align: right;
+        }
+
+        .cart-item-title {
+            font-weight: 700;
+            color: var(--text-color);
+            display: block;
+        }
+
+        .cart-item-sub {
+            font-size: 0.82em;
+            color: var(--light-text);
+        }
+
+        .cart-qty-controls {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .qty-btn {
+            width: 26px;
+            height: 26px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            font-weight: 800;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+        }
+
+        .qty-btn:hover {
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+        }
+
+        .qty-input {
+            width: 48px !important;
+            padding: 3px 4px !important;
+            text-align: center;
+            font-weight: 700;
+            font-size: 13px !important;
+        }
+
+        .remove-item-btn {
+            background: transparent;
+            border: none;
+            color: #ef4444;
+            cursor: pointer;
+            font-size: 15px;
+            padding: 2px 5px;
+        }
+
+        .invoice-box {
+            background: var(--invoice-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 10px 12px;
+            margin-bottom: 12px;
+            text-align: right;
+            font-size: 0.85em;
+        }
+
+        .invoice-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 3px 0;
+            color: var(--light-text);
+        }
+
+        .invoice-row.total {
+            border-top: 1px dashed var(--border-color);
+            margin-top: 5px;
+            padding-top: 6px;
+            font-weight: 800;
+            font-size: 1.05em;
+            color: var(--accent-color);
+        }
+
+        .invoice-row.remaining {
+            font-weight: 700;
+            color: #10b981;
+        }
+
+        .invoice-row.remaining.due {
+            color: #ef4444;
+        }
+
+        .submit-btn {
+            font-family: inherit;
+            font-weight: 800;
             background-color: var(--accent-color);
             color: white;
-            border-color: var(--accent-color);
-            font-weight: 600;
+            padding: 11px 18px;
+            border: none;
+            border-radius: 9px;
+            cursor: pointer;
+            font-size: 15px;
+            width: 100%;
+            transition: background-color 0.2s, transform 0.1s;
+        }
+
+        .submit-btn:hover {
+            background-color: var(--accent-hover);
+        }
+
+        .clear-cart-btn {
+            font-family: inherit;
+            font-size: 12px;
+            font-weight: 700;
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--light-text);
+            border-radius: 7px;
+            padding: 4px 10px;
+            cursor: pointer;
+        }
+
+        .clear-cart-btn:hover {
+            border-color: #ef4444;
+            color: #ef4444;
+        }
+
+        /* سایدبار چپ: سفارشات ثبت شده */
+        .order-list-scroll {
+            max-height: 74vh;
+            overflow-y: auto;
+        }
+
+        #exportButton {
+            font-family: inherit;
+            font-weight: 700;
+            background-color: #10b981;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 9px 14px;
+            font-size: 14px;
+            cursor: pointer;
+            width: 100%;
+            margin-bottom: 12px;
+            display: none;
+        }
+
+        #exportButton:hover {
+            background-color: #059669;
+        }
+
+        .order-item {
+            display: flex;
+            border: 1px solid var(--border-color);
+            padding: 11px 12px;
+            margin-bottom: 9px;
+            border-radius: 10px;
+            background-color: var(--card-bg);
+        }
+
+        .item-number {
+            font-size: 1.05em;
+            font-weight: 800;
+            color: var(--accent-color);
+            padding: 0 10px;
+            border-left: 2px solid var(--border-color);
+            display: flex;
+            align-items: center;
+        }
+
+        .item-details {
+            flex-grow: 1;
+            padding-right: 10px;
+            text-align: right;
+            font-size: 0.84em;
+            line-height: 1.65;
+        }
+
+        .item-header-row {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-bottom: 3px;
+        }
+
+        .badge {
+            font-size: 0.74em;
+            font-weight: 700;
+            padding: 2px 7px;
+            border-radius: 6px;
+        }
+
+        .badge-type {
+            background: rgba(37, 99, 235, 0.14);
+            color: var(--accent-color);
+        }
+
+        .badge-urgent {
+            background: rgba(239, 68, 68, 0.16);
+            color: #ef4444;
+        }
+
+        .badge-normal {
+            background: rgba(100, 116, 139, 0.15);
+            color: var(--light-text);
+        }
+
+        .badge-paid {
+            background: rgba(16, 185, 129, 0.16);
+            color: #10b981;
+        }
+
+        .badge-unpaid {
+            background: rgba(245, 158, 11, 0.18);
+            color: #d97706;
+        }
+
+        /* صفحه تمام‌صفحه نرخ‌نامه */
+        .price-list-page {
+            position: relative;
+            z-index: 1;
+            max-width: 1160px;
+            margin: 0 auto;
+        }
+
+        .price-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+            gap: 18px;
+        }
+
+        .rate-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.88em;
+        }
+
+        .rate-table th, .rate-table td {
+            padding: 8px 10px;
+            border-bottom: 1px solid var(--border-color);
+            text-align: right;
+        }
+
+        .rate-table th {
+            color: var(--accent-color);
+            font-weight: 800;
+            background: var(--invoice-bg);
+        }
+
+        .rate-table tr:last-child td {
+            border-bottom: none;
         }
 
         #confirmationMessage {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            inset: 0;
             background-color: rgba(8, 12, 20, 0.94);
             color: white;
             display: none;
@@ -336,7 +761,6 @@
             z-index: 1000;
             opacity: 0;
             transition: opacity 0.15s ease-in;
-            font-family: inherit;
         }
 
         #confirmationMessage.show {
@@ -345,112 +769,30 @@
         }
 
         #confirmationMessage strong {
-            font-size: 4.5em;
-            margin-bottom: 15px;
+            font-size: 4em;
+            margin-bottom: 12px;
             letter-spacing: 2px;
             font-weight: 800;
             color: #60a5fa;
         }
 
         #confirmationMessage span {
-             font-size: 1.3em;
-             color: #cbd5e1;
+            font-size: 1.25em;
+            color: #cbd5e1;
         }
 
-        .order-list-area {
-            width: 550px;
-            overflow-y: auto;
-            height: 88vh;
-            display: flex;
-            flex-direction: column;
+        .hidden {
+            display: none !important;
         }
 
-        .order-list-area h2 {
-            text-align: center;
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--accent-color);
-            border-bottom: 2px solid var(--border-color);
-            padding-bottom: 12px;
-            margin-top: 0;
-            margin-bottom: 20px;
-            transition: color 0.3s, border-bottom-color 0.3s;
-        }
-        
-        #orderList {
-            flex-grow: 1;
-        }
-
-        .order-item {
-            display: flex;
-            border: 1px solid var(--border-color);
-            padding: 12px 14px;
-            margin-bottom: 10px;
-            border-radius: 8px;
-            background-color: var(--card-bg);
-            transition: background-color 0.3s, border-color 0.3s;
-        }
-
-        .item-number {
-            font-size: 1.2em;
-            font-weight: 700;
-            color: var(--accent-color);
-            padding: 0 12px;
-            border-left: 2px solid var(--border-color);
-            display: flex;
-            align-items: center;
-            transition: border-left-color 0.3s;
-        }
-
-        .item-details {
-            flex-grow: 1;
-            padding-right: 12px;
-            text-align: right;
-            font-size: 0.9em;
-        }
-
-        .item-details strong {
-            display: block;
-            color: var(--text-color);
-            margin-bottom: 4px;
-            font-weight: 700;
-            transition: color 0.3s;
-        }
-
-        .item-details span {
-            display: block;
-            color: var(--light-text);
-            font-size: 0.88em;
-            transition: color 0.3s;
-        }
-
-        #exportButton {
-            background-color: #10b981;
-            margin-bottom: 15px;
-            margin-top: 0;
-        }
-
-        #exportButton:hover {
-            background-color: #059669;
-        }
-
-        .mode-toggle {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            z-index: 10;
-        }
-
-        .mode-toggle label {
-            cursor: pointer;
-            font-size: 1.4em;
-            color: var(--light-text);
-            display: block;
-            user-select: none;
-        }
-
-        .mode-toggle input {
-            display: none;
+        @media (max-width: 1150px) {
+            .workspace-grid {
+                grid-template-columns: 1fr;
+                max-width: 640px;
+            }
+            .order-list-scroll {
+                max-height: none;
+            }
         }
     </style>
 </head>
@@ -462,311 +804,860 @@
     <div class="bg-art-circle"></div>
     <div class="bg-art-cross"></div>
 
-    <div class="mode-toggle">
-        <input type="checkbox" id="darkModeToggle" onchange="toggleDarkMode()">
-        <label for="darkModeToggle" id="toggleIcon">☀️</label>
+    <!-- نوار کنترل و تب‌های بالا -->
+    <div class="top-controls">
+        <div class="mode-tabs" role="tablist">
+            <button type="button" class="mode-tab-btn active" id="tab-personal" onclick="switchMode('personal')">
+                <span>📷</span>
+                <span>پرسنلی و ۳×۴</span>
+            </button>
+            <button type="button" class="mode-tab-btn" id="tab-print" onclick="switchMode('print')">
+                <span>🖼️</span>
+                <span>چاپ عکس و شاسی</span>
+            </button>
+            <button type="button" class="mode-tab-btn" id="tab-tape" onclick="switchMode('tape')">
+                <span>🎞️</span>
+                <span>تبدیل فیلم</span>
+            </button>
+            <button type="button" class="mode-tab-btn" id="tab-rates" onclick="switchMode('rates')">
+                <span>📋</span>
+                <span>نرخ‌نامه</span>
+            </button>
+        </div>
+
+        <div class="mode-toggle">
+            <input type="checkbox" id="darkModeToggle" onchange="toggleDarkMode()">
+            <label for="darkModeToggle" id="toggleIcon">☀️</label>
+        </div>
     </div>
 
-    <div class="form-area">
-        <div class="header">
-            <div id="cameraIcon" class="camera-icon-wrapper">
-                <svg viewBox="0 0 24 24">
-                    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
-                    <circle cx="12" cy="13" r="4"></circle>
-                </svg>
+    <!-- نمای اصلی ۳ ستونه -->
+    <div class="workspace-grid" id="mainWorkspace">
+        <!-- ستون ۱ (راست): انتخاب خدمات و جزئیات -->
+        <div class="panel-box">
+            <div class="header">
+                <div id="cameraIcon" class="camera-icon-wrapper">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+                        <circle cx="12" cy="13" r="4"></circle>
+                    </svg>
+                </div>
+                <div class="logo-text">
+                    <span class="line1">PAZZ</span>
+                    <span class="line2">ProLab</span>
+                </div>
             </div>
-            <div class="logo-text">
-                <span class="line1">PAZZ</span>
-                <span class="line2">ProLab</span>
+
+            <!-- بخش ۱: پرسنلی و ۳×۴ -->
+            <div id="section-personal">
+                <div style="text-align: center;">
+                    <span class="section-badge">📷 بخش عکس پرسنلی و ۳×۴</span>
+                </div>
+
+                <div class="form-group">
+                    <label class="field-label">نوع تحویل پرسنلی (تعیین‌کننده نرخ)</label>
+                    <div class="pill-group">
+                        <input type="radio" id="p-urgent" name="pUrgency" value="فوری" checked onchange="syncPersonalCartPrices()">
+                        <label for="p-urgent">فوری (تعرفه چاپ جدید)</label>
+
+                        <input type="radio" id="p-normal" name="pUrgency" value="غیر فوری" onchange="syncPersonalCartPrices()">
+                        <label for="p-normal">غیر فوری (تعرفه چاپ مجدد)</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="field-label">افزودن بسته عکس ۳×۴ (با هر کلیک به سبد اضافه می‌شود)</label>
+                    <div class="action-grid">
+                        <button type="button" class="add-item-btn" onclick="addPersonalPackage('pack6')">+ ۶ قطعه ۳×۴</button>
+                        <button type="button" class="add-item-btn" onclick="addPersonalPackage('pack9')">+ ۹ قطعه ۳×۴</button>
+                        <button type="button" class="add-item-btn" onclick="addPersonalPackage('pack12')">+ ۱۲ قطعه ۳×۴</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="field-label">افزودن چاپ مجدد و خدمات ویژه پرسنلی</label>
+                    <div class="action-grid">
+                        <button type="button" class="add-item-btn" onclick="addCartItem({ key: 'rep-6', category: 'پرسنلی', title: 'چاپ مجدد ۶ قطعه', unitPrice: 380, qty: 1 })">+ چاپ مجدد ۶ قطعه</button>
+                        <button type="button" class="add-item-btn" onclick="addCartItem({ key: 'rep-9', category: 'پرسنلی', title: 'چاپ مجدد ۹ قطعه', unitPrice: 570, qty: 1 })">+ چاپ مجدد ۹ قطعه</button>
+                        <button type="button" class="add-item-btn" onclick="addCartItem({ key: 'rep-12', category: 'پرسنلی', title: 'چاپ مجدد ۱۲ قطعه', unitPrice: 730, qty: 1 })">+ چاپ مجدد ۱۲ قطعه</button>
+                        <button type="button" class="add-item-btn" onclick="addCartItem({ key: 'visa', category: 'پرسنلی', title: 'عکس ویزا و پاسپورت', unitPrice: 450, qty: 1 })">+ ویزا و پاسپورت</button>
+                        <button type="button" class="add-item-btn" onclick="addCartItem({ key: 'bio', category: 'پرسنلی', title: 'فایل بایومتریک و لاتاری', unitPrice: 550, qty: 1 })">+ فایل بایومتریک و لاتاری</button>
+                        <button type="button" class="add-item-btn" onclick="addCartItem({ key: 'layout9', category: 'پرسنلی', title: '۹ قطعه ۳×۴ چیدمان', unitPrice: 420, qty: 1 })">+ ۹ قطعه ۳×۴ چیدمان</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="field-label">جزئیات مشتری</label>
+                    <div class="pill-group" id="detailGenderAge">
+                        <input type="checkbox" id="male" name="genderAge" value="آقا"><label for="male">آقا</label>
+                        <input type="checkbox" id="female" name="genderAge" value="خانم"><label for="female">خانم</label>
+                        <input type="checkbox" id="child" name="genderAge" value="کودک"><label for="child">کودک</label>
+                        <input type="checkbox" id="teen" name="genderAge" value="نوجوان"><label for="teen">نوجوان</label>
+                        <input type="checkbox" id="young" name="genderAge" value="جوان"><label for="young">جوان</label>
+                        <input type="checkbox" id="middle" name="genderAge" value="میانسال"><label for="middle">میانسال</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="field-label">لباس و رنگ</label>
+                    <div class="pill-group" id="detailClothing">
+                        <div class="sub-divider">نوع و طرح لباس</div>
+                        <input type="checkbox" id="cloth-plain" name="clothing" value="ساده"><label for="cloth-plain">ساده</label>
+                        <input type="checkbox" id="cloth-striped" name="clothing" value="راه‌راه"><label for="cloth-striped">راه‌راه</label>
+                        <input type="checkbox" id="cloth-patterned" name="clothing" value="طرح‌دار"><label for="cloth-patterned">طرح‌دار</label>
+                        <input type="checkbox" id="cloth-tshirt" name="clothing" value="تیشرت"><label for="cloth-tshirt">تیشرت</label>
+                        <input type="checkbox" id="cloth-manto" name="clothing" value="مانتو"><label for="cloth-manto">مانتو</label>
+                        <input type="checkbox" id="cloth-coat" name="clothing" value="کت"><label for="cloth-coat">کت</label>
+                        <input type="checkbox" id="cloth-chador" name="clothing" value="چادر"><label for="cloth-chador">چادر</label>
+                        <input type="checkbox" id="cloth-shirt" name="clothing" value="پیراهن"><label for="cloth-shirt">پیراهن</label>
+                        <input type="checkbox" id="cloth-scarf" name="clothing" value="مقنعه"><label for="cloth-scarf">مقنعه</label>
+
+                        <div class="sub-divider">رنگ‌های جنریک</div>
+                        <input type="checkbox" id="c-black" name="clothing" value="مشکی"><label for="c-black">مشکی</label>
+                        <input type="checkbox" id="c-white" name="clothing" value="سفید"><label for="c-white">سفید</label>
+                        <input type="checkbox" id="c-gray" name="clothing" value="طوسی"><label for="c-gray">طوسی</label>
+                        <input type="checkbox" id="c-navy" name="clothing" value="سرمه‌ای"><label for="c-navy">سرمه‌ای</label>
+                        <input type="checkbox" id="c-blue" name="clothing" value="آبی"><label for="c-blue">آبی</label>
+                        <input type="checkbox" id="c-red" name="clothing" value="قرمز"><label for="c-red">قرمز</label>
+                        <input type="checkbox" id="c-green" name="clothing" value="سبز"><label for="c-green">سبز</label>
+                        <input type="checkbox" id="c-brown" name="clothing" value="قهوه‌ای"><label for="c-brown">قهوه‌ای</label>
+                        <input type="checkbox" id="c-beige" name="clothing" value="کرم / بژ"><label for="c-beige">کرم / بژ</label>
+                        <input type="checkbox" id="c-pink" name="clothing" value="صورتی"><label for="c-pink">صورتی</label>
+                        <input type="checkbox" id="c-purple" name="clothing" value="بنفش"><label for="c-purple">بنفش</label>
+                        <input type="checkbox" id="c-yellow" name="clothing" value="زرد"><label for="c-yellow">زرد</label>
+                        <input type="checkbox" id="c-orange" name="clothing" value="نارنجی"><label for="c-orange">نارنجی</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- بخش ۲: چاپ عکس و شاسی -->
+            <div id="section-print" class="hidden">
+                <div style="text-align: center;">
+                    <span class="section-badge">🖼️ بخش چاپ عکس، شاسی و خدمات</span>
+                </div>
+
+                <div class="form-group">
+                    <label class="field-label">افزودن چاپ عکس (با هر کلیک به سبد اضافه می‌شود)</label>
+                    <div class="action-grid" id="printButtonsGrid"></div>
+                </div>
+
+                <div class="form-group">
+                    <label class="field-label">افزودن شاسی (با هر کلیک به سبد اضافه می‌شود)</label>
+                    <div class="action-grid" id="chassisButtonsGrid"></div>
+                </div>
+
+                <div class="form-group">
+                    <label class="field-label">سایر سایزها و خدمات تکمیلی</label>
+                    <div class="action-grid">
+                        <button type="button" class="add-item-btn" onclick="addCustomSizeItem()">+ سایز دلخواه (سایر...)</button>
+                        <button type="button" class="add-item-btn" onclick="addCartItem({ key: 'srv-design', category: 'خدمات', title: 'طراحی', unitPrice: 400, qty: 1 })">+ طراحی</button>
+                        <button type="button" class="add-item-btn" onclick="addCartItem({ key: 'srv-restore', category: 'خدمات', title: 'ترمیم', unitPrice: 600, qty: 1 })">+ ترمیم</button>
+                        <button type="button" class="add-item-btn" onclick="addCartItem({ key: 'srv-enhance', category: 'خدمات', title: 'افزایش کیفیت', unitPrice: 300, qty: 1 })">+ افزایش کیفیت</button>
+                        <button type="button" class="add-item-btn" onclick="addCartItem({ key: 'srv-face', category: 'خدمات', title: 'بازسازی چهره', unitPrice: 400, qty: 1 })">+ بازسازی چهره</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- بخش ۳: تبدیل فیلم (کاست) -->
+            <div id="section-tape" class="hidden">
+                <div style="text-align: center;">
+                    <span class="section-badge">🎞️ بخش تبدیل فیلم و کاست</span>
+                </div>
+
+                <div class="form-group">
+                    <label class="field-label">نوع کاست / فیلم</label>
+                    <div class="pill-group" id="tapeTypeGroup">
+                        <input type="radio" id="tp-vhs" name="tapeType" value="VHS" checked><label for="tp-vhs">VHS</label>
+                        <input type="radio" id="tp-vhsc" name="tapeType" value="VHS-C"><label for="tp-vhsc">VHS-C</label>
+                        <input type="radio" id="tp-minidv" name="tapeType" value="MiniDV"><label for="tp-minidv">MiniDV</label>
+                        <input type="radio" id="tp-hi8" name="tapeType" value="Hi8 / Video8"><label for="tp-hi8">Hi8 / Video8</label>
+                        <input type="radio" id="tp-super8" name="tapeType" value="فیلم ۸ / سوپر ۸"><label for="tp-super8">فیلم ۸ / سوپر ۸</label>
+                        <input type="radio" id="tp-other" name="tapeType" value="سایر"><label for="tp-other">سایر...</label>
+                    </div>
+                    <div class="conditional-input" id="customTapeBox">
+                        <input type="text" id="customTapeInput" placeholder="نوع کاست یا فیلم را وارد کنید">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="field-label" for="tDurationHours">مدت زمان فیلم (ساعت)</label>
+                    <input type="number" id="tDurationHours" min="0.1" step="0.1" value="1">
+                </div>
+
+                <button type="button" class="submit-btn" onclick="addTapeToCart()">+ افزودن این کاست به سبد خرید</button>
             </div>
         </div>
 
-        <form id="orderForm">
-            <div class="form-group">
-                <label for="lastName">نام و نام خانوادگی</label>
-                <input type="text" id="lastName" name="lastName" autocomplete="off">
-            </div>
-            <div class="form-group">
-                <label for="phoneNumber">شماره تماس</label>
-                <input type="text" id="phoneNumber" name="phoneNumber" autocomplete="off">
-            </div>
-            <div class="form-group">
-                <label for="photoCount">تعداد قطعه عکس</label>
-                <input type="number" id="photoCount" name="photoCount" min="1" value="6">
+        <!-- ستون ۲ (وسط): سبد خرید، جمع‌بندی و ثبت نهایی -->
+        <div class="panel-box">
+            <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid var(--border-color); padding-bottom: 10px; margin-bottom: 12px;">
+                <h2 style="margin: 0; font-size: 17px; font-weight: 800; color: var(--accent-color);">🛒 سبد خرید و جمع‌بندی سفارش</h2>
+                <button type="button" class="clear-cart-btn" onclick="clearCart()">خالی کردن سبد</button>
             </div>
 
-            <div class="form-group">
-                <label>جزئیات مشتری</label>
-                <div class="checkbox-group" id="detailGenderAge">
-                    <input type="checkbox" id="male" name="genderAge" value="آقا"><label for="male">آقا</label>
-                    <input type="checkbox" id="female" name="genderAge" value="خانم"><label for="female">خانم</label>
-                    <input type="checkbox" id="child" name="genderAge" value="کودک"><label for="child">کودک</label>
-                    <input type="checkbox" id="teen" name="genderAge" value="نوجوان"><label for="teen">نوجوان</label>
-                    <input type="checkbox" id="young" name="genderAge" value="جوان"><label for="young">جوان</label>
-                    <input type="checkbox" id="middle" name="genderAge" value="میانسال"><label for="middle">میانسال</label>
+            <div class="form-row-2">
+                <div class="form-group">
+                    <label class="field-label" for="custName">نام و نام خانوادگی</label>
+                    <input type="text" id="custName" autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label class="field-label" for="custPhone">شماره تماس</label>
+                    <input type="text" id="custPhone" autocomplete="off">
+                </div>
+            </div>
+
+            <div class="cart-list" id="cartContainer">
+                <div class="cart-empty">هنوز آیتمی به سبد خرید اضافه نشده است. روی دکمه‌های سمت راست کلیک کنید.</div>
+            </div>
+
+            <div class="form-row-2">
+                <div class="form-group">
+                    <label class="field-label">وضعیت حساب</label>
+                    <div class="pill-group" id="accountStatusGroup">
+                        <input type="radio" id="acc-settled" name="accountStatus" value="تسویه شده" checked><label for="acc-settled">تسویه شده</label>
+                        <input type="radio" id="acc-unsettled" name="accountStatus" value="تسویه نشده"><label for="acc-unsettled">تسویه نشده</label>
+                        <input type="radio" id="acc-deposit" name="accountStatus" value="بیعانه"><label for="acc-deposit">بیعانه</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="field-label" for="cartTotalInput">مبلغ کل (هزار تومان - قابل ویرایش)</label>
+                    <input type="number" id="cartTotalInput" min="0" value="0">
+                </div>
+            </div>
+
+            <div class="form-group conditional-input" id="depositBox">
+                <label class="field-label" for="depositInput">مقدار بیعانه (هزار تومان)</label>
+                <input type="number" id="depositInput" min="0" placeholder="مثلاً 200">
+            </div>
+
+            <div class="invoice-box">
+                <div class="invoice-row">
+                    <span>تعداد کل اقلام سبد:</span>
+                    <strong id="invItemCount">۰ آیتم</strong>
+                </div>
+                <div class="invoice-row total">
+                    <span>جمع کل فاکتور:</span>
+                    <span id="invTotalDisplay">۰ تومان</span>
+                </div>
+                <div class="invoice-row remaining" id="invRemainingRow">
+                    <span>مانده حساب:</span>
+                    <span id="invRemainingDisplay">۰ تومان (تسویه)</span>
                 </div>
             </div>
 
             <div class="form-group">
-                <label>رنگ‌ها</label>
-                <div class="checkbox-group color-group" id="detailColors">
-                    <input type="checkbox" id="color-green" name="color" value="سبز"><label for="color-green">سبز</label>
-                    <input type="checkbox" id="color-red" name="color" value="قرمز"><label for="color-red">قرمز</label>
-                    <input type="checkbox" id="color-blue" name="color" value="آبی"><label for="color-blue">آبی</label>
-                    <input type="checkbox" id="color-black" name="color" value="مشکی"><label for="color-black">مشکی</label>
-                    <input type="checkbox" id="color-white" name="color" value="سفید"><label for="color-white">سفید</label>
-                    <input type="checkbox" id="color-pink" name="color" value="صورتی"><label for="color-pink">صورتی</label>
-                    <input type="checkbox" id="color-purple" name="color" value="بنفش"><label for="color-purple">بنفش</label>
-                    <input type="checkbox" id="color-yellow" name="color" value="زرد"><label for="color-yellow">زرد</label>
-                    <input type="checkbox" id="color-orange" name="color" value="نارنجی"><label for="color-orange">نارنجی</label>
-                    <input type="checkbox" id="color-brown" name="color" value="قهوه‌ای"><label for="color-brown">قهوه‌ای</label>
-                </div>
-            </div>
-            
-             <div class="form-group">
-                <label for="description">توضیحات</label>
-                <textarea id="description" name="description"></textarea>
+                <label class="field-label" for="orderDescription">توضیحات سفارش</label>
+                <textarea id="orderDescription"></textarea>
             </div>
 
-            <button type="submit" id="submitButton">ثبت سفارش</button>
-        </form>
-    </div>
+            <button type="button" class="submit-btn" onclick="submitFullOrder()">ثبت نهایی سفارش</button>
+        </div>
 
-    <div class="order-list-area">
-        <h2>سفارشات ثبت شده لابراتوار پاز</h2>
-        <button id="exportButton" onclick="exportOrdersToCSV()">گرفتن خروجی 📊</button>
-        <div id="orderList">
-            <p style="text-align: center; color: var(--light-text);">هنوز سفارشی ثبت نشده است.</p>
+        <!-- ستون ۳ (چپ): سفارشات ثبت شده -->
+        <div class="panel-box">
+            <h2 class="panel-title">سفارشات ثبت شده لابراتوار پاز</h2>
+            <button id="exportButton" onclick="exportOrdersToCSV()">گرفتن خروجی 📊</button>
+            <div id="orderList" class="order-list-scroll">
+                <p style="text-align: center; color: var(--light-text);">هنوز سفارشی ثبت نشده است.</p>
+            </div>
         </div>
     </div>
-    
+
+    <!-- صفحه تمام‌صفحه نرخ‌نامه و تعرفه‌ها -->
+    <div class="price-list-page hidden" id="ratesPage">
+        <div class="panel-box" style="margin-bottom: 18px; text-align: center;">
+            <h2 style="margin: 0 0 6px 0; color: var(--accent-color); font-size: 21px;">📋 نرخ‌نامه رسمی خدمات لابراتوار پاز (PAZZ ProLab)</h2>
+            <p style="margin: 0; color: var(--light-text); font-size: 0.9em;">تمامی مبالغ به <strong>هزار تومان</strong> درج شده‌اند.</p>
+        </div>
+
+        <div class="price-cards-grid">
+            <div class="panel-box">
+                <h3 class="panel-title">📷 عکس پرسنلی و ۳×۴</h3>
+                <table class="rate-table">
+                    <thead>
+                        <tr>
+                            <th>شرح خدمت</th>
+                            <th>فوری (چاپ جدید)</th>
+                            <th>غیر فوری (چاپ مجدد)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>۶ قطعه عکس ۳×۴</td><td>۴۲۰</td><td>۳۸۰</td></tr>
+                        <tr><td>۹ قطعه عکس ۳×۴</td><td>۶۳۰</td><td>۵۷۰</td></tr>
+                        <tr><td>۱۲ قطعه عکس ۳×۴</td><td>۷۸۰</td><td>۷۳۰</td></tr>
+                        <tr><td>عکس ویزا و پاسپورت</td><td colspan="2">۴۵۰</td></tr>
+                        <tr><td>فایل عکس بایومتریک و لاتاری</td><td colspan="2">۵۵۰</td></tr>
+                        <tr><td>۹ قطعه عکس ۳×۴ چیدمان</td><td colspan="2">۴۲۰</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="panel-box">
+                <h3 class="panel-title">🖼️ چاپ عکس و شاسی</h3>
+                <table class="rate-table">
+                    <thead>
+                        <tr>
+                            <th>سایز (سانتی‌متر)</th>
+                            <th>چاپ عکس</th>
+                            <th>شاسی</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ratesPrintTableBody"></tbody>
+                </table>
+            </div>
+
+            <div class="panel-box">
+                <h3 class="panel-title">✨ خدمات تکمیلی و تبدیل فیلم</h3>
+                <table class="rate-table">
+                    <thead>
+                        <tr>
+                            <th>شرح خدمت</th>
+                            <th>تعرفه (هزار تومان)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>طراحی</td><td>از ۴۰۰</td></tr>
+                        <tr><td>افزایش کیفیت</td><td>از ۳۰۰</td></tr>
+                        <tr><td>بازسازی چهره</td><td>از ۴۰۰</td></tr>
+                        <tr><td>ترمیم عکس</td><td>از ۶۰۰</td></tr>
+                        <tr><td>تبدیل فیلم و کاست (تا ۱ ساعت)</td><td>۳۵۰</td></tr>
+                        <tr><td>تبدیل فیلم (هر ساعت اضافه)</td><td>+ ۳۵۰</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
     <div id="confirmationMessage">
         <span style="color: #aaa;">کد ردیابی جهت درج روی پاکت:</span>
         <strong id="displayOrderID"></strong>
         <span id="displayName"></span>
     </div>
 
-    <audio id="shutterSound" src="./shutter.mp3" preload="auto"></audio> 
+    <audio id="shutterSound" src="./shutter.mp3" preload="auto"></audio>
 
     <script>
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbxuXkBvHiGQtol7r6sUsyevrnwVsi3u4kfkuJg-OyuQSiltCODmYGGoVSTJiWt_UA3f/exec';
+        const renderBackendURL = 'https://pazz.onrender.com/';
 
-        const form = document.getElementById('orderForm');
-        const cameraIcon = document.getElementById('cameraIcon');
-        const shutterSound = document.getElementById('shutterSound');
-        const lastNameInput = document.getElementById('lastName');
-        const orderList = document.getElementById('orderList');
-        const confirmationMessage = document.getElementById('confirmationMessage');
-        const displayOrderID = document.getElementById('displayOrderID');
-        const displayName = document.getElementById('displayName');
-        const appBody = document.getElementById('appBody');
-        const toggleIcon = document.getElementById('toggleIcon');
-        const exportButton = document.getElementById('exportButton');
+        const PRINT_SIZES = [
+            { size: '10×15', print: 95, chassis: 95 },
+            { size: '13×18', print: 130, chassis: 130 },
+            { size: '16×21', print: 195, chassis: 195 },
+            { size: '20×25', print: 355, chassis: 245 },
+            { size: '20×30', print: 425, chassis: 310 },
+            { size: '24×30', print: 575, chassis: 390 },
+            { size: '30×40', print: 750, chassis: 750 },
+            { size: '40×60', print: 1950, chassis: 1950 },
+            { size: '50×70', print: 2850, chassis: 2850 },
+            { size: '60×90', print: 3850, chassis: 3850 },
+            { size: '100×70', print: 4850, chassis: 4850 }
+        ];
 
+        const PERSONAL_PACKAGES = {
+            pack6: { urgentTitle: '۶ قطعه ۳×۴ (فوری)', normalTitle: '۶ قطعه ۳×۴ (غیر فوری)', urgentPrice: 420, normalPrice: 380 },
+            pack9: { urgentTitle: '۹ قطعه ۳×۴ (فوری)', normalTitle: '۹ قطعه ۳×۴ (غیر فوری)', urgentPrice: 630, normalPrice: 570 },
+            pack12: { urgentTitle: '۱۲ قطعه ۳×۴ (فوری)', normalTitle: '۱۲ قطعه ۳×۴ (غیر فوری)', urgentPrice: 780, normalPrice: 730 }
+        };
+
+        let cartItems = [];
         let sessionOrders = [];
+        let isManualTotal = false;
         let confirmationTimeout;
+
+        function formatToman(thousandVal) {
+            const num = Math.max(0, Number(thousandVal) || 0) * 1000;
+            return num.toLocaleString('fa-IR') + ' تومان';
+        }
+
+        function escapeHTML(str) {
+            return String(str ?? '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function switchMode(mode) {
+            const isRates = mode === 'rates';
+            document.getElementById('mainWorkspace').classList.toggle('hidden', isRates);
+            document.getElementById('ratesPage').classList.toggle('hidden', !isRates);
+
+            if (!isRates) {
+                document.getElementById('section-personal').classList.toggle('hidden', mode !== 'personal');
+                document.getElementById('section-print').classList.toggle('hidden', mode !== 'print');
+                document.getElementById('section-tape').classList.toggle('hidden', mode !== 'tape');
+            }
+
+            ['personal', 'print', 'tape', 'rates'].forEach(tab => {
+                document.getElementById(`tab-${tab}`).classList.toggle('active', tab === mode);
+            });
+        }
+
+        function initPrintAndRatesUI() {
+            const printGrid = document.getElementById('printButtonsGrid');
+            const chassisGrid = document.getElementById('chassisButtonsGrid');
+            const ratesBody = document.getElementById('ratesPrintTableBody');
+
+            PRINT_SIZES.forEach(item => {
+                const pBtn = document.createElement('button');
+                pBtn.type = 'button';
+                pBtn.className = 'add-item-btn';
+                pBtn.textContent = `+ چاپ ${item.size}`;
+                pBtn.onclick = () => addCartItem({
+                    key: `print-${item.size}`,
+                    category: 'چاپ عکس',
+                    title: `چاپ عکس ${item.size}`,
+                    unitPrice: item.print,
+                    qty: 1
+                });
+                printGrid.appendChild(pBtn);
+
+                const cBtn = document.createElement('button');
+                cBtn.type = 'button';
+                cBtn.className = 'add-item-btn';
+                cBtn.textContent = `+ شاسی ${item.size}`;
+                cBtn.onclick = () => addCartItem({
+                    key: `chassis-${item.size}`,
+                    category: 'شاسی',
+                    title: `شاسی ${item.size}`,
+                    unitPrice: item.chassis,
+                    qty: 1
+                });
+                chassisGrid.appendChild(cBtn);
+
+                const tr = document.createElement('tr');
+                tr.innerHTML = `<td>${item.size}</td><td>${item.print.toLocaleString('fa-IR')}</td><td>${item.chassis.toLocaleString('fa-IR')}</td>`;
+                ratesBody.appendChild(tr);
+            });
+        }
+
+        function isPersonalUrgent() {
+            const urgentEl = document.getElementById('p-urgent');
+            return urgentEl ? urgentEl.checked : true;
+        }
+
+        function addPersonalPackage(packKey) {
+            const def = PERSONAL_PACKAGES[packKey];
+            if (!def) return;
+            const urgent = isPersonalUrgent();
+            addCartItem({
+                key: `personal-${packKey}`,
+                packKey,
+                category: 'پرسنلی',
+                title: urgent ? def.urgentTitle : def.normalTitle,
+                unitPrice: urgent ? def.urgentPrice : def.normalPrice,
+                qty: 1
+            });
+        }
+
+        function syncPersonalCartPrices() {
+            const urgent = isPersonalUrgent();
+            let changed = false;
+            cartItems.forEach(item => {
+                if (item.packKey && PERSONAL_PACKAGES[item.packKey]) {
+                    const def = PERSONAL_PACKAGES[item.packKey];
+                    item.title = urgent ? def.urgentTitle : def.normalTitle;
+                    item.unitPrice = urgent ? def.urgentPrice : def.normalPrice;
+                    changed = true;
+                }
+            });
+            if (changed) {
+                isManualTotal = false;
+                renderCart();
+            }
+        }
+
+        function addCustomSizeItem() {
+            const customLabel = prompt('سایز دلخواه را وارد کنید (مثلاً 70×100):');
+            if (!customLabel || !customLabel.trim()) return;
+            const cleanSize = customLabel.trim();
+            addCartItem({
+                key: `custom-size-${cleanSize}`,
+                category: 'چاپ عکس',
+                title: `چاپ سایز ${cleanSize}`,
+                unitPrice: 0,
+                qty: 1
+            });
+        }
+
+        function addTapeToCart() {
+            const selectedTape = document.querySelector('input[name="tapeType"]:checked');
+            const baseType = selectedTape ? selectedTape.value : 'VHS';
+            const customTape = document.getElementById('customTapeInput').value.trim();
+            const finalTape = baseType === 'سایر' ? (customTape || 'کاست سایر') : baseType;
+
+            const rawHours = Math.max(0.1, Number(document.getElementById('tDurationHours').value) || 1);
+            const billedHours = Math.max(1, Math.ceil(rawHours));
+            const price = billedHours * 350;
+
+            addCartItem({
+                key: `tape-${finalTape}-${rawHours}-${Date.now()}`,
+                category: 'تبدیل فیلم',
+                title: `تبدیل ${finalTape} (${rawHours} ساعت)`,
+                unitPrice: price,
+                qty: 1
+            });
+        }
+
+        function addCartItem(newItem) {
+            isManualTotal = false;
+            const existing = cartItems.find(it => it.key === newItem.key);
+            if (existing) {
+                existing.qty += newItem.qty || 1;
+            } else {
+                cartItems.push({ ...newItem, qty: newItem.qty || 1 });
+            }
+            renderCart();
+        }
+
+        function updateCartQty(index, delta) {
+            if (!cartItems[index]) return;
+            isManualTotal = false;
+            const nextQty = cartItems[index].qty + delta;
+            if (nextQty <= 0) {
+                cartItems.splice(index, 1);
+            } else {
+                cartItems[index].qty = nextQty;
+            }
+            renderCart();
+        }
+
+        function setCartQtyDirect(index, val) {
+            if (!cartItems[index]) return;
+            isManualTotal = false;
+            const parsed = Math.max(1, parseInt(val, 10) || 1);
+            cartItems[index].qty = parsed;
+            renderCart();
+        }
+
+        function removeCartItem(index) {
+            isManualTotal = false;
+            cartItems.splice(index, 1);
+            renderCart();
+        }
+
+        function clearCart() {
+            cartItems = [];
+            isManualTotal = false;
+            renderCart();
+        }
+
+        function renderCart() {
+            const container = document.getElementById('cartContainer');
+            if (cartItems.length === 0) {
+                container.innerHTML = '<div class="cart-empty">هنوز آیتمی به سبد خرید اضافه نشده است. روی دکمه‌های سمت راست کلیک کنید.</div>';
+            } else {
+                container.innerHTML = '';
+                cartItems.forEach((item, idx) => {
+                    const row = document.createElement('div');
+                    row.className = 'cart-row';
+                    const lineTotal = item.unitPrice * item.qty;
+
+                    row.innerHTML = `
+                        <div class="cart-item-info">
+                            <span class="cart-item-title">${escapeHTML(item.title)}</span>
+                            <span class="cart-item-sub">${escapeHTML(item.category)} • جمع ردیف: ${lineTotal.toLocaleString('fa-IR')} هزار تومان</span>
+                        </div>
+                        <div class="cart-qty-controls">
+                            <button type="button" class="qty-btn" onclick="updateCartQty(${idx}, -1)">-</button>
+                            <input type="number" class="qty-input" min="1" value="${item.qty}" onchange="setCartQtyDirect(${idx}, this.value)">
+                            <button type="button" class="qty-btn" onclick="updateCartQty(${idx}, 1)">+</button>
+                            <button type="button" class="remove-item-btn" title="حذف" onclick="removeCartItem(${idx})">✕</button>
+                        </div>
+                    `;
+                    container.appendChild(row);
+                });
+            }
+
+            recalculateInvoice();
+        }
+
+        function recalculateInvoice() {
+            const autoSum = cartItems.reduce((sum, it) => sum + (it.unitPrice * it.qty), 0);
+            const totalQty = cartItems.reduce((sum, it) => sum + it.qty, 0);
+
+            const totalInput = document.getElementById('cartTotalInput');
+            if (!isManualTotal) {
+                totalInput.value = autoSum;
+            }
+
+            const finalTotal = Number(totalInput.value) || 0;
+            const statusEl = document.querySelector('input[name="accountStatus"]:checked');
+            const status = statusEl ? statusEl.value : 'تسویه شده';
+
+            const isDeposit = status === 'بیعانه';
+            document.getElementById('depositBox').classList.toggle('visible', isDeposit);
+
+            let paid = 0;
+            if (status === 'تسویه شده') paid = finalTotal;
+            else if (isDeposit) paid = Number(document.getElementById('depositInput').value) || 0;
+
+            const remaining = Math.max(0, finalTotal - paid);
+
+            document.getElementById('invItemCount').textContent = `${totalQty.toLocaleString('fa-IR')} عدد (${cartItems.length.toLocaleString('fa-IR')} ردیف)`;
+            document.getElementById('invTotalDisplay').textContent = formatToman(finalTotal);
+
+            const remEl = document.getElementById('invRemainingDisplay');
+            const remRow = document.getElementById('invRemainingRow');
+            if (remaining <= 0) {
+                remEl.textContent = '۰ تومان (تسویه)';
+                remRow.classList.remove('due');
+            } else {
+                remEl.textContent = formatToman(remaining);
+                remRow.classList.add('due');
+            }
+        }
+
+        document.querySelectorAll('input[name="accountStatus"]').forEach(el => {
+            el.addEventListener('change', recalculateInvoice);
+        });
+        document.getElementById('cartTotalInput').addEventListener('input', () => {
+            isManualTotal = true;
+            recalculateInvoice();
+        });
+        document.getElementById('depositInput').addEventListener('input', recalculateInvoice);
+
+        document.querySelectorAll('input[name="tapeType"]').forEach(el => {
+            el.addEventListener('change', () => {
+                document.getElementById('customTapeBox').classList.toggle('visible', document.getElementById('tp-other').checked);
+            });
+        });
 
         function generateOrderID() {
             const now = new Date();
             const year = String(now.getFullYear()).slice(2);
             const month = String(now.getMonth() + 1).padStart(2, '0');
             const day = String(now.getDate()).padStart(2, '0');
-            const uniquePart = String(now.getTime()).slice(-6); 
+            const uniquePart = String(now.getTime()).slice(-6);
             return `${year}${month}${day}-${uniquePart}`;
         }
 
+        function getCheckedValues(name) {
+            return Array.from(document.querySelectorAll(`input[name="${name}"]:checked`)).map(el => el.value);
+        }
+
+        function submitFullOrder() {
+            if (cartItems.length === 0) {
+                alert('سبد خرید خالی است! لطفاً حداقل یک آیتم اضافه کنید.');
+                return;
+            }
+
+            const now = new Date();
+            const orderID = generateOrderID();
+            const customerName = document.getElementById('custName').value.trim() || 'نامشخص';
+            const phoneNumber = document.getElementById('custPhone').value.trim() || '---';
+            const description = document.getElementById('orderDescription').value.trim();
+
+            const totalAmount = Number(document.getElementById('cartTotalInput').value) || 0;
+            const statusEl = document.querySelector('input[name="accountStatus"]:checked');
+            const accountStatus = statusEl ? statusEl.value : 'تسویه شده';
+
+            let depositAmount = 0;
+            if (accountStatus === 'تسویه شده') depositAmount = totalAmount;
+            else if (accountStatus === 'بیعانه') depositAmount = Number(document.getElementById('depositInput').value) || 0;
+            const remainingAmount = Math.max(0, totalAmount - depositAmount);
+
+            const categories = [...new Set(cartItems.map(it => it.category))].join('، ');
+            const itemsSummary = cartItems.map(it => `${it.title} × ${it.qty}`).join(' | ');
+            const totalQuantity = cartItems.reduce((sum, it) => sum + it.qty, 0);
+
+            const urgency = isPersonalUrgent() ? 'فوری' : 'غیر فوری';
+            const genderAge = getCheckedValues('genderAge');
+            const clothing = getCheckedValues('clothing');
+
+            const orderData = {
+                id: orderID,
+                orderType: categories,
+                customerName,
+                phoneNumber,
+                itemsSummary,
+                totalQuantity: String(totalQuantity),
+                urgency,
+                genderAge,
+                clothing,
+                accountStatus,
+                totalAmount: String(totalAmount),
+                depositAmount: String(depositAmount),
+                remainingAmount: String(remainingAmount),
+                description,
+                status: 'ثبت شده',
+                time: now.toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit', hour12: false }),
+                timestamp: now.toLocaleString('fa-IR')
+            };
+
+            sessionOrders.push(orderData);
+            renderOrders();
+            sendToRenderBackend(orderData);
+
+            try {
+                const shutterSound = document.getElementById('shutterSound');
+                if (shutterSound) {
+                    shutterSound.currentTime = 0;
+                    shutterSound.play().catch(() => {});
+                }
+            } catch (e) {}
+
+            const cameraIcon = document.getElementById('cameraIcon');
+            cameraIcon.classList.add('shutter-animation');
+            showConfirmation(orderID, customerName, totalAmount);
+
+            setTimeout(() => {
+                cameraIcon.classList.remove('shutter-animation');
+                cartItems = [];
+                isManualTotal = false;
+                document.getElementById('custName').value = '';
+                document.getElementById('custPhone').value = '';
+                document.getElementById('orderDescription').value = '';
+                document.getElementById('depositInput').value = '';
+                document.getElementById('acc-settled').checked = true;
+                document.querySelectorAll('input[name="genderAge"], input[name="clothing"]').forEach(cb => cb.checked = false);
+                renderCart();
+                document.getElementById('custName').focus();
+            }, 200);
+        }
+
+        function sendToRenderBackend(orderData) {
+            const payload = new URLSearchParams();
+            Object.entries(orderData).forEach(([key, val]) => {
+                payload.append(key, Array.isArray(val) ? val.join(', ') : String(val ?? ''));
+            });
+
+            fetch(renderBackendURL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: payload.toString()
+            }).catch(error => console.error('خطا در ارسال به سرور Render:', error));
+        }
+
         function renderOrders() {
-            orderList.innerHTML = ''; 
+            const orderList = document.getElementById('orderList');
+            const exportButton = document.getElementById('exportButton');
+            orderList.innerHTML = '';
 
             if (sessionOrders.length === 0) {
                 orderList.innerHTML = '<p style="text-align: center; color: var(--light-text);">هنوز سفارشی ثبت نشده است.</p>';
                 exportButton.style.display = 'none';
                 return;
             }
-            
+
             exportButton.style.display = 'block';
 
-            [...sessionOrders].reverse().forEach((order, index) => { 
+            [...sessionOrders].reverse().forEach((order, index) => {
                 const item = document.createElement('div');
                 item.className = 'order-item';
-                
-                const itemNumber = sessionOrders.length - index; 
+                const itemNumber = sessionOrders.length - index;
 
-                const descriptionDisplay = order.description && order.description.length > 0 
-                    ? ` | توضیحات: ${order.description.substring(0, 20)}${order.description.length > 20 ? '...' : ''}`
+                const isSettled = Number(order.remainingAmount) === 0;
+                const accountBadge = `<span class="badge ${isSettled ? 'badge-paid' : 'badge-unpaid'}">کل: ${escapeHTML(order.totalAmount)} هزار | مانده: ${escapeHTML(order.remainingAmount)} هزار</span>`;
+                const urgencyBadge = order.orderType.includes('پرسنلی')
+                    ? `<span class="badge ${order.urgency === 'فوری' ? 'badge-urgent' : 'badge-normal'}">${escapeHTML(order.urgency)}</span>`
                     : '';
-                
-                const phoneDisplay = order.phoneNumber && order.phoneNumber !== '---'
-                    ? ` | تماس: ${order.phoneNumber}`
-                    : '';
-                
-                const genderAgeStr = order.details.genderAge.length > 0 ? order.details.genderAge.join(', ') : '';
-                const colorsStr = order.details.colors.length > 0 ? order.details.colors.join(', ') : '';
-                
-                let detailsSummary = '';
-                if (genderAgeStr) {
-                    detailsSummary += `مشتری: [${genderAgeStr}]`;
-                }
-                if (colorsStr) {
-                    detailsSummary += detailsSummary ? ` - رنگ: [${colorsStr}]` : `رنگ: [${colorsStr}]`;
-                }
-                const detailsDisplay = detailsSummary ? ` | ${detailsSummary}` : '';
+
+                const extras = [
+                    order.genderAge.length ? `مشتری: [${escapeHTML(order.genderAge.join('، '))}]` : '',
+                    order.clothing.length ? `لباس: [${escapeHTML(order.clothing.join('، '))}]` : '',
+                    order.description ? `توضیحات: ${escapeHTML(order.description)}` : ''
+                ].filter(Boolean).join(' | ');
 
                 item.innerHTML = `
                     <div class="item-number">#${itemNumber}</div>
                     <div class="item-details">
-                        <strong>کد ردیابی: ${order.id}</strong>
-                        <span>فامیل: ${order.lastName} | تعداد: ${order.photoCount} قطعه ${phoneDisplay}</span>
-                        <span style="font-size: 0.8em; opacity: 0.8;">زمان ثبت: ${order.time} ${detailsDisplay} ${descriptionDisplay}</span>
+                        <div class="item-header-row">
+                            <strong>کد: ${escapeHTML(order.id)}</strong>
+                            <span class="badge badge-type">${escapeHTML(order.orderType)}</span>
+                            ${urgencyBadge}
+                            ${accountBadge}
+                        </div>
+                        <div>مشتری: <strong>${escapeHTML(order.customerName)}</strong>${order.phoneNumber !== '---' ? ` | تماس: ${escapeHTML(order.phoneNumber)}` : ''}</div>
+                        <div style="font-weight: 600; color: var(--text-color);">${escapeHTML(order.itemsSummary)}</div>
+                        <div style="font-size: 0.8em; opacity: 0.85;">زمان: ${escapeHTML(order.time)}${extras ? ` | ${extras}` : ''}</div>
                     </div>
                 `;
                 orderList.appendChild(item);
             });
         }
-        
-        function showConfirmation(id, name) {
-            displayOrderID.textContent = id;
-            displayName.textContent = `فامیل ثبت شده: ${name}`;
+
+        function showConfirmation(id, name, totalThousand) {
+            const confirmationMessage = document.getElementById('confirmationMessage');
+            document.getElementById('displayOrderID').textContent = id;
+            document.getElementById('displayName').textContent = `مشتری: ${name} — جمع فاکتور: ${formatToman(totalThousand)}`;
             confirmationMessage.classList.add('show');
 
             clearTimeout(confirmationTimeout);
             confirmationTimeout = setTimeout(() => {
                 confirmationMessage.classList.remove('show');
-            }, 1500); 
+            }, 1600);
         }
 
         function exportOrdersToCSV() {
-            if (sessionOrders.length === 0) {
-                alert("لیست سفارشات خالی است.");
-                return;
-            }
+            if (sessionOrders.length === 0) return;
 
-            let csvContent = "کد ردیابی,نام خانوادگی,شماره تماس,تعداد قطعه عکس,جزئیات مشتری (جنسیت/سن),رنگ‌های انتخابی,توضیحات,زمان و تاریخ ثبت,وضعیت\n";
+            const headers = [
+                "کد ردیابی",
+                "بخش‌های سفارش",
+                "نام و نام خانوادگی",
+                "شماره تماس",
+                "شرح اقلام سبد خرید",
+                "تعداد کل اقلام",
+                "اولویت پرسنلی",
+                "جزئیات مشتری",
+                "لباس و رنگ",
+                "وضعیت حساب",
+                "مبلغ کل (هزار تومان)",
+                "پرداختی / بیعانه (هزار تومان)",
+                "مانده حساب (هزار تومان)",
+                "توضیحات",
+                "زمان و تاریخ ثبت"
+            ];
+
+            const sanitize = (str) => `"${String(str ?? '').replace(/"/g, '""').replace(/\n/g, ' ')}"`;
+            let csvContent = headers.map(sanitize).join(',') + "\n";
 
             sessionOrders.forEach(order => {
-                const sanitize = (str) => {
-                    return `"${String(str).replace(/"/g, '""').replace(/\n/g, ' ')}"`;
-                };
-
-                const genderAgeStr = order.details.genderAge.join(' ');
-                const colorsStr = order.details.colors.join(', ');
-
                 const row = [
-                    sanitize(order.id),
-                    sanitize(order.lastName),
-                    sanitize(order.phoneNumber),
-                    sanitize(order.photoCount),
-                    sanitize(genderAgeStr),
-                    sanitize(colorsStr),
-                    sanitize(order.description),
-                    sanitize(order.timestamp),
-                    sanitize(order.status)
-                ];
+                    order.id,
+                    order.orderType,
+                    order.customerName,
+                    order.phoneNumber,
+                    order.itemsSummary,
+                    order.totalQuantity,
+                    order.urgency,
+                    (order.genderAge || []).join('، '),
+                    (order.clothing || []).join('، '),
+                    order.accountStatus,
+                    order.totalAmount,
+                    order.depositAmount,
+                    order.remainingAmount,
+                    order.description,
+                    order.timestamp
+                ].map(sanitize);
+
                 csvContent += row.join(',') + "\n";
             });
 
             const blob = new Blob(["\uFEFF" + csvContent], { type: 'text/csv;charset=utf-8;' });
             const url = URL.createObjectURL(blob);
             const link = document.createElement('a');
-            
-            const now = new Date();
-            const dateStr = now.toLocaleDateString('fa-IR').replace(/\//g, '-');
             link.setAttribute('href', url);
-            link.setAttribute('download', `Pause-Orders-${dateStr}.csv`);
-            
+            link.setAttribute('download', `Pazz-Orders-${new Date().toISOString().slice(0, 10)}.csv`);
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
-            alert("فایل اکسل (CSV) با موفقیت دانلود شد.");
+            URL.revokeObjectURL(url);
         }
 
         function toggleDarkMode() {
-            const isDarkMode = appBody.classList.toggle('dark-mode');
-            toggleIcon.textContent = isDarkMode ? '🌙' : '☀️';
+            const isDarkMode = document.getElementById('appBody').classList.toggle('dark-mode');
+            document.getElementById('toggleIcon').textContent = isDarkMode ? '🌙' : '☀️';
         }
 
-        form.addEventListener('submit', function(e) {
-            e.preventDefault(); 
-
-            const orderID = generateOrderID();
-
-            const getCheckedValues = (name) => {
-                return Array.from(document.querySelectorAll(`input[name="${name}"]:checked`))
-                            .map(input => input.value);
-            };
-
-            const selectedGenderAge = getCheckedValues('genderAge');
-            const selectedColors = getCheckedValues('color');
-
-            const now = new Date();
-            const lastName = lastNameInput.value.trim() || 'نامشخص'; 
-            const photoCountValue = document.getElementById('photoCount').value || 6;
-            const descriptionValue = document.getElementById('description').value.trim(); 
-
-            const orderData = {
-                id: orderID,
-                lastName: lastName,
-                phoneNumber: document.getElementById('phoneNumber').value.trim() || '---',
-                photoCount: photoCountValue,
-                description: descriptionValue, 
-                details: {
-                    genderAge: selectedGenderAge,
-                    colors: selectedColors
-                },
-                status: 'آماده چاپ',
-                time: now.toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit', hour12: false }),
-                timestamp: now.toLocaleString('fa-IR'),
-            };
-
-            sessionOrders.push(orderData);
-            renderOrders(); 
-
-            const formData = new URLSearchParams();
-            formData.append('id', orderData.id);
-            formData.append('name', orderData.lastName);
-            formData.append('phone', orderData.phoneNumber);
-            formData.append('count', orderData.photoCount);
-            formData.append('details', selectedGenderAge.join(', '));
-            formData.append('colors', selectedColors.join(', '));
-            formData.append('notes', orderData.description);
-            formData.append('date', orderData.timestamp);
-
-            fetch(scriptURL, {
-                method: 'POST',
-                mode: 'no-cors',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                body: formData.toString()
-            }).catch(error => console.error('خطا در ارسال به گوگل شیت:', error));
-
-            try {
-                if (shutterSound) { 
-                    shutterSound.currentTime = 0;
-                    shutterSound.play().catch(err => console.log('مشکل در پخش صدا:', err));
-                }
-            } catch (error) {
-                console.warn("فایل صوتی یافت نشد یا مرورگر اجازه پخش نداد.");
-            }
-            
-            cameraIcon.classList.add('shutter-animation');
-            showConfirmation(orderID, lastName);
-
-            setTimeout(() => {
-                cameraIcon.classList.remove('shutter-animation');
-                form.reset();
-                document.getElementById('photoCount').value = 6; 
-                
-                document.querySelectorAll('input[name="genderAge"]').forEach(cb => cb.checked = false);
-                document.querySelectorAll('input[name="color"]').forEach(cb => cb.checked = false);
-
-                lastNameInput.focus();
-            }, 200); 
-        });
-
         window.onload = function() {
-            lastNameInput.focus();
+            initPrintAndRatesUI();
+            renderCart();
             renderOrders();
+            document.getElementById('custName').focus();
         };
     </script>
 </body>
