@@ -130,7 +130,6 @@
             to { transform: rotate(360deg); }
         }
 
-        /* نوار کنترل بالا */
         .top-controls {
             position: fixed;
             top: 12px;
@@ -207,7 +206,6 @@
             display: none;
         }
 
-        /* چیدمان سه‌ستونه اصلی */
         .workspace-grid {
             position: relative;
             z-index: 1;
@@ -322,18 +320,24 @@
             gap: 10px;
         }
 
+        .form-row-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px;
+        }
+
         label.field-label {
             display: block;
             margin-bottom: 5px;
             font-weight: 700;
             color: var(--light-text);
-            font-size: 0.84em;
+            font-size: 0.83em;
         }
 
         input[type="text"], input[type="number"], textarea {
             font-family: inherit;
             width: 100%;
-            padding: 8px 11px;
+            padding: 8px 10px;
             border: 1px solid var(--border-color);
             border-radius: 8px;
             box-sizing: border-box;
@@ -353,7 +357,6 @@
             min-height: 54px;
         }
 
-        /* دکمه‌های افزودن به سبد خرید (کلیک چندباره) */
         .action-grid {
             border: 1px solid var(--border-color);
             background-color: var(--card-bg);
@@ -456,9 +459,8 @@
             display: block;
         }
 
-        /* سبد خرید وسط */
         .cart-list {
-            max-height: 320px;
+            max-height: 300px;
             overflow-y: auto;
             margin-bottom: 12px;
             border: 1px solid var(--border-color);
@@ -621,7 +623,6 @@
             color: #ef4444;
         }
 
-        /* سایدبار چپ: سفارشات ثبت شده */
         .order-list-scroll {
             max-height: 74vh;
             overflow-y: auto;
@@ -693,6 +694,11 @@
             color: var(--accent-color);
         }
 
+        .badge-code {
+            background: rgba(139, 92, 246, 0.16);
+            color: #8b5cf6;
+        }
+
         .badge-urgent {
             background: rgba(239, 68, 68, 0.16);
             color: #ef4444;
@@ -713,7 +719,6 @@
             color: #d97706;
         }
 
-        /* صفحه تمام‌صفحه نرخ‌نامه */
         .price-list-page {
             position: relative;
             z-index: 1;
@@ -790,6 +795,9 @@
                 grid-template-columns: 1fr;
                 max-width: 640px;
             }
+            .form-row-3 {
+                grid-template-columns: 1fr;
+            }
             .order-list-scroll {
                 max-height: none;
             }
@@ -804,7 +812,6 @@
     <div class="bg-art-circle"></div>
     <div class="bg-art-cross"></div>
 
-    <!-- نوار کنترل و تب‌های بالا -->
     <div class="top-controls">
         <div class="mode-tabs" role="tablist">
             <button type="button" class="mode-tab-btn active" id="tab-personal" onclick="switchMode('personal')">
@@ -831,7 +838,6 @@
         </div>
     </div>
 
-    <!-- نمای اصلی ۳ ستونه -->
     <div class="workspace-grid" id="mainWorkspace">
         <!-- ستون ۱ (راست): انتخاب خدمات و جزئیات -->
         <div class="panel-box">
@@ -848,7 +854,6 @@
                 </div>
             </div>
 
-            <!-- بخش ۱: پرسنلی و ۳×۴ -->
             <div id="section-personal">
                 <div style="text-align: center;">
                     <span class="section-badge">📷 بخش عکس پرسنلی و ۳×۴</span>
@@ -930,7 +935,6 @@
                 </div>
             </div>
 
-            <!-- بخش ۲: چاپ عکس و شاسی -->
             <div id="section-print" class="hidden">
                 <div style="text-align: center;">
                     <span class="section-badge">🖼️ بخش چاپ عکس، شاسی و خدمات</span>
@@ -958,7 +962,6 @@
                 </div>
             </div>
 
-            <!-- بخش ۳: تبدیل فیلم (کاست) -->
             <div id="section-tape" class="hidden">
                 <div style="text-align: center;">
                     <span class="section-badge">🎞️ بخش تبدیل فیلم و کاست</span>
@@ -995,7 +998,7 @@
                 <button type="button" class="clear-cart-btn" onclick="clearCart()">خالی کردن سبد</button>
             </div>
 
-            <div class="form-row-2">
+            <div class="form-row-3">
                 <div class="form-group">
                     <label class="field-label" for="custName">نام و نام خانوادگی</label>
                     <input type="text" id="custName" autocomplete="off">
@@ -1003,6 +1006,10 @@
                 <div class="form-group">
                     <label class="field-label" for="custPhone">شماره تماس</label>
                     <input type="text" id="custPhone" autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label class="field-label" for="photoCode">کد / شماره عکس</label>
+                    <input type="text" id="photoCode" autocomplete="off" placeholder="مثلاً 1042">
                 </div>
             </div>
 
@@ -1447,6 +1454,7 @@
             const orderID = generateOrderID();
             const customerName = document.getElementById('custName').value.trim() || 'نامشخص';
             const phoneNumber = document.getElementById('custPhone').value.trim() || '---';
+            const photoCode = document.getElementById('photoCode').value.trim() || '---';
             const description = document.getElementById('orderDescription').value.trim();
 
             const totalAmount = Number(document.getElementById('cartTotalInput').value) || 0;
@@ -1468,6 +1476,7 @@
 
             const orderData = {
                 id: orderID,
+                photoCode,
                 orderType: categories,
                 customerName,
                 phoneNumber,
@@ -1500,7 +1509,7 @@
 
             const cameraIcon = document.getElementById('cameraIcon');
             cameraIcon.classList.add('shutter-animation');
-            showConfirmation(orderID, customerName, totalAmount);
+            showConfirmation(orderID, customerName, totalAmount, photoCode);
 
             setTimeout(() => {
                 cameraIcon.classList.remove('shutter-animation');
@@ -1508,6 +1517,7 @@
                 isManualTotal = false;
                 document.getElementById('custName').value = '';
                 document.getElementById('custPhone').value = '';
+                document.getElementById('photoCode').value = '';
                 document.getElementById('orderDescription').value = '';
                 document.getElementById('depositInput').value = '';
                 document.getElementById('acc-settled').checked = true;
@@ -1554,6 +1564,9 @@
                 const urgencyBadge = order.orderType.includes('پرسنلی')
                     ? `<span class="badge ${order.urgency === 'فوری' ? 'badge-urgent' : 'badge-normal'}">${escapeHTML(order.urgency)}</span>`
                     : '';
+                const codeBadge = order.photoCode && order.photoCode !== '---'
+                    ? `<span class="badge badge-code">کد عکس: ${escapeHTML(order.photoCode)}</span>`
+                    : '';
 
                 const extras = [
                     order.genderAge.length ? `مشتری: [${escapeHTML(order.genderAge.join('، '))}]` : '',
@@ -1567,6 +1580,7 @@
                         <div class="item-header-row">
                             <strong>کد: ${escapeHTML(order.id)}</strong>
                             <span class="badge badge-type">${escapeHTML(order.orderType)}</span>
+                            ${codeBadge}
                             ${urgencyBadge}
                             ${accountBadge}
                         </div>
@@ -1579,10 +1593,11 @@
             });
         }
 
-        function showConfirmation(id, name, totalThousand) {
+        function showConfirmation(id, name, totalThousand, photoCode) {
             const confirmationMessage = document.getElementById('confirmationMessage');
             document.getElementById('displayOrderID').textContent = id;
-            document.getElementById('displayName').textContent = `مشتری: ${name} — جمع فاکتور: ${formatToman(totalThousand)}`;
+            const codeText = photoCode && photoCode !== '---' ? ` | کد عکس: ${photoCode}` : '';
+            document.getElementById('displayName').textContent = `مشتری: ${name}${codeText} — جمع فاکتور: ${formatToman(totalThousand)}`;
             confirmationMessage.classList.add('show');
 
             clearTimeout(confirmationTimeout);
@@ -1596,6 +1611,7 @@
 
             const headers = [
                 "کد ردیابی",
+                "کد / شماره عکس",
                 "بخش‌های سفارش",
                 "نام و نام خانوادگی",
                 "شماره تماس",
@@ -1618,6 +1634,7 @@
             sessionOrders.forEach(order => {
                 const row = [
                     order.id,
+                    order.photoCode,
                     order.orderType,
                     order.customerName,
                     order.phoneNumber,
