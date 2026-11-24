@@ -1144,7 +1144,6 @@
     <audio id="shutterSound" src="./shutter.mp3" preload="auto"></audio>
 
     <script>
-        const renderBackendURL = 'https://pazz.onrender.com/';
         const googleSheetWebAppURL = 'https://script.google.com/macros/s/AKfycbx9qGXkpkK0nHuIeBFMSVJdWK61A7kSbCDf_ET5xi3M3RPWav6NjJOYUTJPwfsDZMdD/exec';
         const googleSheetDeploymentId = 'AKfycbx9qGXkpkK0nHuIeBFMSVJdWK61A7kSbCDf_ET5xi3M3RPWav6NjJOYUTJPwfsDZMdD';
 
@@ -1495,13 +1494,12 @@
                 status: 'ثبت شده',
                 time: now.toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit', hour12: false }),
                 timestamp: now.toLocaleString('fa-IR'),
-                sheetUrl: googleSheetWebAppURL,
                 deploymentId: googleSheetDeploymentId
             };
 
             sessionOrders.push(orderData);
             renderOrders();
-            sendToRenderBackend(orderData);
+            sendToGoogleSheet(orderData);
 
             try {
                 const shutterSound = document.getElementById('shutterSound');
@@ -1531,18 +1529,18 @@
             }, 200);
         }
 
-        function sendToRenderBackend(orderData) {
+        function sendToGoogleSheet(orderData) {
             const payload = new URLSearchParams();
             Object.entries(orderData).forEach(([key, val]) => {
                 payload.append(key, Array.isArray(val) ? val.join(', ') : String(val ?? ''));
             });
 
-            fetch(renderBackendURL, {
+            fetch(googleSheetWebAppURL, {
                 method: 'POST',
                 mode: 'no-cors',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 body: payload.toString()
-            }).catch(error => console.error('خطا در ارسال به سرور Render:', error));
+            }).catch(error => console.error('خطا در ارسال مستقیم به گوگل شیت:', error));
         }
 
         function renderOrders() {
