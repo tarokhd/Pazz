@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📷</text></svg>">
-    <title>سامانه سفارشات و سبد خرید لابراتوار پاز</title>
+    <title>سامانه سفارشات لابراتوار پاز</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -700,6 +700,11 @@
         }
 
         .badge-unpaid {
+            background: rgba(239, 68, 68, 0.16);
+            color: #ef4444;
+        }
+
+        .badge-deposit {
             background: rgba(245, 158, 11, 0.18);
             color: #d97706;
         }
@@ -1008,6 +1013,7 @@
                     <div class="pill-group" id="accountStatusGroup">
                         <input type="radio" id="acc-settled" name="accountStatus" value="تسویه شده" checked><label for="acc-settled">تسویه کامل</label>
                         <input type="radio" id="acc-deposit" name="accountStatus" value="بیعانه"><label for="acc-deposit">بیعانه</label>
+                        <input type="radio" id="acc-unpaid" name="accountStatus" value="پرداخت نشده"><label for="acc-unpaid">پرداخت نشده</label>
                     </div>
                 </div>
                 <div class="form-group">
@@ -1379,11 +1385,15 @@
             const status = statusEl ? statusEl.value : 'تسویه شده';
 
             const isDeposit = status === 'بیعانه';
+            const isUnpaid = status === 'پرداخت نشده';
             document.getElementById('depositBox').classList.toggle('visible', isDeposit);
 
-            const remaining = isDeposit
-                ? Math.max(0, finalTotal - (Number(document.getElementById('depositInput').value) || 0))
-                : 0;
+            let remaining = 0;
+            if (isUnpaid) {
+                remaining = finalTotal;
+            } else if (isDeposit) {
+                remaining = Math.max(0, finalTotal - (Number(document.getElementById('depositInput').value) || 0));
+            }
 
             document.getElementById('invItemCount').textContent = `${totalQty.toLocaleString('fa-IR')} عدد`;
             document.getElementById('invTotalDisplay').textContent = formatToman(finalTotal);
@@ -1435,8 +1445,18 @@
             const accountStatus = statusEl ? statusEl.value : 'تسویه شده';
 
             const isDepositOnly = accountStatus === 'بیعانه';
-            const depositAmount = isDepositOnly ? (Number(document.getElementById('depositInput').value) || 0) : 0;
-            const remainingAmount = isDepositOnly ? Math.max(0, totalAmount - depositAmount) : 0;
+            const isUnpaid = accountStatus === 'پرداخت نشده';
+
+            let depositAmount = 0;
+            let remainingAmount = 0;
+
+            if (isUnpaid) {
+                depositAmount = 0;
+                remainingAmount = totalAmount;
+            } else if (isDepositOnly) {
+                depositAmount = Number(document.getElementById('depositInput').value) || 0;
+                remainingAmount = Math.max(0, totalAmount - depositAmount);
+            }
 
             const urgencyShort = isPersonalUrgent() ? 'ف' : 'غ';
             const itemsSummary = cartItems.map(it => {
@@ -1454,6 +1474,7 @@
                 phoneNumber,
                 itemsSummary,
                 description,
+                accountStatus,
                 remainingAmount: String(remainingAmount),
                 depositAmount: String(depositAmount),
                 totalQuantity: String(totalQuantity),
@@ -1530,8 +1551,18 @@
 
                 const remNum = Number(order.remainingAmount) || 0;
                 const depNum = Number(order.depositAmount) || 0;
-                const isSettled = remNum === 0 && depNum === 0;
-                const accountBadge = `<span class="badge ${remNum === 0 ? 'badge-paid' : 'badge-unpaid'}">${isSettled ? 'پرداخت شده' : `مانده: ${escapeHTML(remNum)} هزار | بیعانه: ${escapeHTML(depNum)} هزار`}</span>`;
+                const isUnpaid = order.accountStatus === 'پرداخت نشده' || (remNum > 0 && depNum === 0);
+                const isSettled = !isUnpaid && remNum === 0 && depNum === 0;
+
+                let accountBadge = '';
+                if (isSettled) {
+                    accountBadge = `<span class="badge badge-paid">پرداخت شده</span>`;
+                } else if (isUnpaid) {
+                    accountBadge = `<span class="badge badge-unpaid">پرداخت نشده | مانده: ${escapeHTML(remNum)} هزار</span>`;
+                } else {
+                    accountBadge = `<span class="badge badge-deposit">بیعانه: ${escapeHTML(depNum)} هزار | مانده: ${escapeHTML(remNum)} هزار</span>`;
+                }
+
                 const codeBadge = order.photoCode && order.photoCode !== '---'
                     ? `<span class="badge badge-code">عکس: ${escapeHTML(order.photoCode)}</span>`
                     : '';
@@ -1595,7 +1626,12 @@
             sessionOrders.forEach(order => {
                 const remVal = Number(order.remainingAmount) || 0;
                 const depVal = Number(order.depositAmount) || 0;
-                const csvDeposit = (remVal === 0 && depVal === 0) ? "پرداخت شده" : order.depositAmount;
+                const isUnpaid = order.accountStatus === 'پرداخت نشده' || (remVal > 0 && depVal === 0);
+                const isSettled = !isUnpaid && remVal === 0 && depVal === 0;
+
+                let csvDeposit = order.depositAmount;
+                if (isSettled) csvDeposit = "پرداخت شده";
+                else if (isUnpaid) csvDeposit = "پرداخت نشده";
 
                 const row = [
                     order.customerName,
