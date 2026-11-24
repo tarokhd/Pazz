@@ -689,24 +689,9 @@
             border-radius: 6px;
         }
 
-        .badge-type {
-            background: rgba(37, 99, 235, 0.14);
-            color: var(--accent-color);
-        }
-
         .badge-code {
             background: rgba(139, 92, 246, 0.16);
             color: #8b5cf6;
-        }
-
-        .badge-urgent {
-            background: rgba(239, 68, 68, 0.16);
-            color: #ef4444;
-        }
-
-        .badge-normal {
-            background: rgba(100, 116, 139, 0.15);
-            color: var(--light-text);
         }
 
         .badge-paid {
@@ -863,10 +848,10 @@
                     <label class="field-label">نوع تحویل پرسنلی (تعیین‌کننده نرخ)</label>
                     <div class="pill-group">
                         <input type="radio" id="p-urgent" name="pUrgency" value="فوری" checked onchange="syncPersonalCartPrices()">
-                        <label for="p-urgent">فوری (تعرفه چاپ جدید)</label>
+                        <label for="p-urgent">فوری (ف)</label>
 
                         <input type="radio" id="p-normal" name="pUrgency" value="غیر فوری" onchange="syncPersonalCartPrices()">
-                        <label for="p-normal">غیر فوری (تعرفه چاپ مجدد)</label>
+                        <label for="p-normal">غیر فوری (غ)</label>
                     </div>
                 </div>
 
@@ -892,7 +877,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="field-label">جزئیات مشتری</label>
+                    <label class="field-label">جزئیات</label>
                     <div class="pill-group" id="detailGenderAge">
                         <input type="checkbox" id="male" name="genderAge" value="آقا"><label for="male">آقا</label>
                         <input type="checkbox" id="female" name="genderAge" value="خانم"><label for="female">خانم</label>
@@ -1000,7 +985,7 @@
 
             <div class="form-row-3">
                 <div class="form-group">
-                    <label class="field-label" for="custName">نام و نام خانوادگی</label>
+                    <label class="field-label" for="custName">نام</label>
                     <input type="text" id="custName" autocomplete="off">
                 </div>
                 <div class="form-group">
@@ -1008,8 +993,8 @@
                     <input type="text" id="custPhone" autocomplete="off">
                 </div>
                 <div class="form-group">
-                    <label class="field-label" for="photoCode">کد / شماره عکس</label>
-                    <input type="text" id="photoCode" autocomplete="off" placeholder="مثلاً 1042">
+                    <label class="field-label" for="photoCode">شماره عکس</label>
+                    <input type="text" id="photoCode" autocomplete="off" placeholder="مثلاً 121">
                 </div>
             </div>
 
@@ -1019,15 +1004,14 @@
 
             <div class="form-row-2">
                 <div class="form-group">
-                    <label class="field-label">وضعیت حساب</label>
+                    <label class="field-label">تسویه سفارش</label>
                     <div class="pill-group" id="accountStatusGroup">
-                        <input type="radio" id="acc-settled" name="accountStatus" value="تسویه شده" checked><label for="acc-settled">تسویه شده</label>
-                        <input type="radio" id="acc-unsettled" name="accountStatus" value="تسویه نشده"><label for="acc-unsettled">تسویه نشده</label>
+                        <input type="radio" id="acc-settled" name="accountStatus" value="تسویه شده" checked><label for="acc-settled">تسویه کامل</label>
                         <input type="radio" id="acc-deposit" name="accountStatus" value="بیعانه"><label for="acc-deposit">بیعانه</label>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="field-label" for="cartTotalInput">مبلغ کل (هزار تومان - قابل ویرایش)</label>
+                    <label class="field-label" for="cartTotalInput">جمع سفارش (هزار تومان - قابل ویرایش)</label>
                     <input type="number" id="cartTotalInput" min="0" value="0">
                 </div>
             </div>
@@ -1039,21 +1023,21 @@
 
             <div class="invoice-box">
                 <div class="invoice-row">
-                    <span>تعداد کل اقلام سبد:</span>
+                    <span>تعداد کل اقلام:</span>
                     <strong id="invItemCount">۰ آیتم</strong>
                 </div>
                 <div class="invoice-row total">
-                    <span>جمع کل فاکتور:</span>
+                    <span>جمع فاکتور:</span>
                     <span id="invTotalDisplay">۰ تومان</span>
                 </div>
                 <div class="invoice-row remaining" id="invRemainingRow">
-                    <span>مانده حساب:</span>
-                    <span id="invRemainingDisplay">۰ تومان (تسویه)</span>
+                    <span>مانده:</span>
+                    <span id="invRemainingDisplay">۰ تومان</span>
                 </div>
             </div>
 
             <div class="form-group">
-                <label class="field-label" for="orderDescription">توضیحات سفارش</label>
+                <label class="field-label" for="orderDescription">توضیحات</label>
                 <textarea id="orderDescription"></textarea>
             </div>
 
@@ -1084,8 +1068,8 @@
                     <thead>
                         <tr>
                             <th>شرح خدمت</th>
-                            <th>فوری (چاپ جدید)</th>
-                            <th>غیر فوری (چاپ مجدد)</th>
+                            <th>فوری (ف)</th>
+                            <th>غیر فوری (غ)</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -1136,7 +1120,7 @@
     </div>
 
     <div id="confirmationMessage">
-        <span style="color: #aaa;">کد ردیابی جهت درج روی پاکت:</span>
+        <span style="color: #aaa;">شماره عکس جهت درج روی پاکت:</span>
         <strong id="displayOrderID"></strong>
         <span id="displayName"></span>
     </div>
@@ -1162,9 +1146,9 @@
         ];
 
         const PERSONAL_PACKAGES = {
-            pack6: { urgentTitle: '۶ قطعه ۳×۴ (فوری)', normalTitle: '۶ قطعه ۳×۴ (غیر فوری)', urgentPrice: 420, normalPrice: 380 },
-            pack9: { urgentTitle: '۹ قطعه ۳×۴ (فوری)', normalTitle: '۹ قطعه ۳×۴ (غیر فوری)', urgentPrice: 630, normalPrice: 570 },
-            pack12: { urgentTitle: '۱۲ قطعه ۳×۴ (فوری)', normalTitle: '۱۲ قطعه ۳×۴ (غیر فوری)', urgentPrice: 780, normalPrice: 730 }
+            pack6: { urgentTitle: '۶ قطعه ۳×۴', normalTitle: '۶ قطعه ۳×۴', urgentPrice: 420, normalPrice: 380 },
+            pack9: { urgentTitle: '۹ قطعه ۳×۴', normalTitle: '۹ قطعه ۳×۴', urgentPrice: 630, normalPrice: 570 },
+            pack12: { urgentTitle: '۱۲ قطعه ۳×۴', normalTitle: '۱۲ قطعه ۳×۴', urgentPrice: 780, normalPrice: 730 }
         };
 
         let cartItems = [];
@@ -1397,19 +1381,17 @@
             const isDeposit = status === 'بیعانه';
             document.getElementById('depositBox').classList.toggle('visible', isDeposit);
 
-            let paid = 0;
-            if (status === 'تسویه شده') paid = finalTotal;
-            else if (isDeposit) paid = Number(document.getElementById('depositInput').value) || 0;
+            const remaining = isDeposit
+                ? Math.max(0, finalTotal - (Number(document.getElementById('depositInput').value) || 0))
+                : 0;
 
-            const remaining = Math.max(0, finalTotal - paid);
-
-            document.getElementById('invItemCount').textContent = `${totalQty.toLocaleString('fa-IR')} عدد (${cartItems.length.toLocaleString('fa-IR')} ردیف)`;
+            document.getElementById('invItemCount').textContent = `${totalQty.toLocaleString('fa-IR')} عدد`;
             document.getElementById('invTotalDisplay').textContent = formatToman(finalTotal);
 
             const remEl = document.getElementById('invRemainingDisplay');
             const remRow = document.getElementById('invRemainingRow');
             if (remaining <= 0) {
-                remEl.textContent = '۰ تومان (تسویه)';
+                remEl.textContent = '۰ تومان';
                 remRow.classList.remove('due');
             } else {
                 remEl.textContent = formatToman(remaining);
@@ -1432,15 +1414,6 @@
             });
         });
 
-        function generateOrderID() {
-            const now = new Date();
-            const year = String(now.getFullYear()).slice(2);
-            const month = String(now.getMonth() + 1).padStart(2, '0');
-            const day = String(now.getDate()).padStart(2, '0');
-            const uniquePart = String(now.getTime()).slice(-6);
-            return `${year}${month}${day}-${uniquePart}`;
-        }
-
         function getCheckedValues(name) {
             return Array.from(document.querySelectorAll(`input[name="${name}"]:checked`)).map(el => el.value);
         }
@@ -1452,7 +1425,6 @@
             }
 
             const now = new Date();
-            const orderID = generateOrderID();
             const customerName = document.getElementById('custName').value.trim() || 'نامشخص';
             const phoneNumber = document.getElementById('custPhone').value.trim() || '---';
             const photoCode = document.getElementById('photoCode').value.trim() || '---';
@@ -1462,38 +1434,33 @@
             const statusEl = document.querySelector('input[name="accountStatus"]:checked');
             const accountStatus = statusEl ? statusEl.value : 'تسویه شده';
 
-            let depositAmount = 0;
-            if (accountStatus === 'تسویه شده') depositAmount = totalAmount;
-            else if (accountStatus === 'بیعانه') depositAmount = Number(document.getElementById('depositInput').value) || 0;
-            const remainingAmount = Math.max(0, totalAmount - depositAmount);
+            const isDepositOnly = accountStatus === 'بیعانه';
+            const depositAmount = isDepositOnly ? (Number(document.getElementById('depositInput').value) || 0) : 0;
+            const remainingAmount = isDepositOnly ? Math.max(0, totalAmount - depositAmount) : 0;
 
-            const categories = [...new Set(cartItems.map(it => it.category))].join('، ');
-            const itemsSummary = cartItems.map(it => `${it.title} × ${it.qty}`).join(' | ');
+            const urgencyShort = isPersonalUrgent() ? 'ف' : 'غ';
+            const itemsSummary = cartItems.map(it => {
+                const tag = it.category === 'پرسنلی' ? ` (${urgencyShort})` : '';
+                return `${it.title}${tag} × ${it.qty}`;
+            }).join(' | ');
+
             const totalQuantity = cartItems.reduce((sum, it) => sum + it.qty, 0);
-
-            const urgency = isPersonalUrgent() ? 'فوری' : 'غیر فوری';
             const genderAge = getCheckedValues('genderAge');
             const clothing = getCheckedValues('clothing');
 
             const orderData = {
-                id: orderID,
-                photoCode,
-                orderType: categories,
                 customerName,
+                photoCode,
                 phoneNumber,
                 itemsSummary,
+                description,
+                remainingAmount: String(remainingAmount),
+                depositAmount: String(depositAmount),
                 totalQuantity: String(totalQuantity),
-                urgency,
                 genderAge,
                 clothing,
-                accountStatus,
-                totalAmount: String(totalAmount),
-                depositAmount: String(depositAmount),
-                remainingAmount: String(remainingAmount),
-                description,
-                status: 'ثبت شده',
-                time: now.toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit', hour12: false }),
                 timestamp: now.toLocaleString('fa-IR'),
+                time: now.toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit', hour12: false }),
                 deploymentId: googleSheetDeploymentId
             };
 
@@ -1511,7 +1478,7 @@
 
             const cameraIcon = document.getElementById('cameraIcon');
             cameraIcon.classList.add('shutter-animation');
-            showConfirmation(orderID, customerName, totalAmount, photoCode);
+            showConfirmation(customerName, totalAmount, photoCode);
 
             setTimeout(() => {
                 cameraIcon.classList.remove('shutter-animation');
@@ -1561,17 +1528,15 @@
                 item.className = 'order-item';
                 const itemNumber = sessionOrders.length - index;
 
-                const isSettled = Number(order.remainingAmount) === 0;
-                const accountBadge = `<span class="badge ${isSettled ? 'badge-paid' : 'badge-unpaid'}">کل: ${escapeHTML(order.totalAmount)} هزار | مانده: ${escapeHTML(order.remainingAmount)} هزار</span>`;
-                const urgencyBadge = order.orderType.includes('پرسنلی')
-                    ? `<span class="badge ${order.urgency === 'فوری' ? 'badge-urgent' : 'badge-normal'}">${escapeHTML(order.urgency)}</span>`
-                    : '';
+                const remNum = Number(order.remainingAmount) || 0;
+                const depNum = Number(order.depositAmount) || 0;
+                const accountBadge = `<span class="badge ${remNum === 0 ? 'badge-paid' : 'badge-unpaid'}">مانده: ${escapeHTML(remNum)} هزار${depNum > 0 ? ` | بیعانه: ${escapeHTML(depNum)} هزار` : ''}</span>`;
                 const codeBadge = order.photoCode && order.photoCode !== '---'
-                    ? `<span class="badge badge-code">کد عکس: ${escapeHTML(order.photoCode)}</span>`
+                    ? `<span class="badge badge-code">عکس: ${escapeHTML(order.photoCode)}</span>`
                     : '';
 
                 const extras = [
-                    order.genderAge.length ? `مشتری: [${escapeHTML(order.genderAge.join('، '))}]` : '',
+                    order.genderAge.length ? `جزئیات: [${escapeHTML(order.genderAge.join('، '))}]` : '',
                     order.clothing.length ? `لباس: [${escapeHTML(order.clothing.join('، '))}]` : '',
                     order.description ? `توضیحات: ${escapeHTML(order.description)}` : ''
                 ].filter(Boolean).join(' | ');
@@ -1580,26 +1545,24 @@
                     <div class="item-number">#${itemNumber}</div>
                     <div class="item-details">
                         <div class="item-header-row">
-                            <strong>کد: ${escapeHTML(order.id)}</strong>
-                            <span class="badge badge-type">${escapeHTML(order.orderType)}</span>
+                            <strong>${escapeHTML(order.customerName)}</strong>
                             ${codeBadge}
-                            ${urgencyBadge}
                             ${accountBadge}
                         </div>
-                        <div>مشتری: <strong>${escapeHTML(order.customerName)}</strong>${order.phoneNumber !== '---' ? ` | تماس: ${escapeHTML(order.phoneNumber)}` : ''}</div>
+                        ${order.phoneNumber !== '---' ? `<div>تماس: ${escapeHTML(order.phoneNumber)}</div>` : ''}
                         <div style="font-weight: 600; color: var(--text-color);">${escapeHTML(order.itemsSummary)}</div>
-                        <div style="font-size: 0.8em; opacity: 0.85;">زمان: ${escapeHTML(order.time)}${extras ? ` | ${extras}` : ''}</div>
+                        <div style="font-size: 0.8em; opacity: 0.85;">تاریخ: ${escapeHTML(order.timestamp)}${extras ? ` | ${extras}` : ''}</div>
                     </div>
                 `;
                 orderList.appendChild(item);
             });
         }
 
-        function showConfirmation(id, name, totalThousand, photoCode) {
+        function showConfirmation(name, totalThousand, photoCode) {
             const confirmationMessage = document.getElementById('confirmationMessage');
-            document.getElementById('displayOrderID').textContent = id;
-            const codeText = photoCode && photoCode !== '---' ? ` | کد عکس: ${photoCode}` : '';
-            document.getElementById('displayName').textContent = `مشتری: ${name}${codeText} — جمع فاکتور: ${formatToman(totalThousand)}`;
+            const mainLabel = photoCode && photoCode !== '---' ? `عکس #${photoCode}` : name;
+            document.getElementById('displayOrderID').textContent = mainLabel;
+            document.getElementById('displayName').textContent = `مشتری: ${name} — جمع: ${formatToman(totalThousand)}`;
             confirmationMessage.classList.add('show');
 
             clearTimeout(confirmationTimeout);
@@ -1612,22 +1575,17 @@
             if (sessionOrders.length === 0) return;
 
             const headers = [
-                "کد ردیابی",
-                "کد / شماره عکس",
-                "بخش‌های سفارش",
-                "نام و نام خانوادگی",
+                "نام",
+                "شماره عکس",
                 "شماره تماس",
-                "شرح اقلام سبد خرید",
-                "تعداد کل اقلام",
-                "اولویت پرسنلی",
-                "جزئیات مشتری",
-                "لباس و رنگ",
-                "وضعیت حساب",
-                "مبلغ کل (هزار تومان)",
-                "پرداختی / بیعانه (هزار تومان)",
-                "مانده حساب (هزار تومان)",
+                "اقلام",
                 "توضیحات",
-                "زمان و تاریخ ثبت"
+                "مانده",
+                "بیعانه",
+                "تعداد",
+                "جزئیات",
+                "لباس",
+                "تاریخ"
             ];
 
             const sanitize = (str) => `"${String(str ?? '').replace(/"/g, '""').replace(/\n/g, ' ')}"`;
@@ -1635,21 +1593,16 @@
 
             sessionOrders.forEach(order => {
                 const row = [
-                    order.id,
-                    order.photoCode,
-                    order.orderType,
                     order.customerName,
+                    order.photoCode,
                     order.phoneNumber,
                     order.itemsSummary,
+                    order.description,
+                    order.remainingAmount,
+                    order.depositAmount,
                     order.totalQuantity,
-                    order.urgency,
                     (order.genderAge || []).join('، '),
                     (order.clothing || []).join('، '),
-                    order.accountStatus,
-                    order.totalAmount,
-                    order.depositAmount,
-                    order.remainingAmount,
-                    order.description,
                     order.timestamp
                 ].map(sanitize);
 
