@@ -1145,6 +1145,8 @@
 
     <script>
         const renderBackendURL = 'https://pazz.onrender.com/';
+        const googleSheetWebAppURL = 'https://script.google.com/macros/s/AKfycbx9qGXkpkK0nHuIeBFMSVJdWK61A7kSbCDf_ET5xi3M3RPWav6NjJOYUTJPwfsDZMdD/exec';
+        const googleSheetDeploymentId = 'AKfycbx9qGXkpkK0nHuIeBFMSVJdWK61A7kSbCDf_ET5xi3M3RPWav6NjJOYUTJPwfsDZMdD';
 
         const PRINT_SIZES = [
             { size: '10×15', print: 95, chassis: 95 },
@@ -1492,7 +1494,9 @@
                 description,
                 status: 'ثبت شده',
                 time: now.toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit', hour12: false }),
-                timestamp: now.toLocaleString('fa-IR')
+                timestamp: now.toLocaleString('fa-IR'),
+                sheetUrl: googleSheetWebAppURL,
+                deploymentId: googleSheetDeploymentId
             };
 
             sessionOrders.push(orderData);
