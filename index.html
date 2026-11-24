@@ -1530,7 +1530,8 @@
 
                 const remNum = Number(order.remainingAmount) || 0;
                 const depNum = Number(order.depositAmount) || 0;
-                const accountBadge = `<span class="badge ${remNum === 0 ? 'badge-paid' : 'badge-unpaid'}">مانده: ${escapeHTML(remNum)} هزار${depNum > 0 ? ` | بیعانه: ${escapeHTML(depNum)} هزار` : ''}</span>`;
+                const isSettled = remNum === 0 && depNum === 0;
+                const accountBadge = `<span class="badge ${remNum === 0 ? 'badge-paid' : 'badge-unpaid'}">${isSettled ? 'پرداخت شده' : `مانده: ${escapeHTML(remNum)} هزار | بیعانه: ${escapeHTML(depNum)} هزار`}</span>`;
                 const codeBadge = order.photoCode && order.photoCode !== '---'
                     ? `<span class="badge badge-code">عکس: ${escapeHTML(order.photoCode)}</span>`
                     : '';
@@ -1592,6 +1593,10 @@
             let csvContent = headers.map(sanitize).join(',') + "\n";
 
             sessionOrders.forEach(order => {
+                const remVal = Number(order.remainingAmount) || 0;
+                const depVal = Number(order.depositAmount) || 0;
+                const csvDeposit = (remVal === 0 && depVal === 0) ? "پرداخت شده" : order.depositAmount;
+
                 const row = [
                     order.customerName,
                     order.photoCode,
@@ -1599,7 +1604,7 @@
                     order.itemsSummary,
                     order.description,
                     order.remainingAmount,
-                    order.depositAmount,
+                    csvDeposit,
                     order.totalQuantity,
                     (order.genderAge || []).join('، '),
                     (order.clothing || []).join('، '),
